@@ -1,0 +1,136 @@
+  .archievments_centences {
+    span {
+      display: block;
+      text-align: center;
+      margin-bottom: 4px;
+      font-size: 20px;
+      
+    }
+    dd{
+      margin-bottom: 6px;
+      height: 2px;
+    }
+    
+  }
+  .archievments_idioms {
+    text-align: center;
+    span {
+      font-size: 20px;
+      display: block;
+      margin-bottom: 16px;
+    }
+    ul {
+      list-style: none;
+      margin: 0;
+      padding-left: 0;
+      list-style: none;
+      display: grid;
+      gap: 3px;
+      font-size: 10px;
+      position: relative; 
+      font-weight: bold;
+      margin-top: 4px;
+      li {
+        height: 16px;
+          &::after {
+            content: attr(data-tooltip);
+            position: absolute; 
+            opacity: 0;
+          }
+          &:hover {
+            &:after {
+              opacity: 1;
+            }
+          }
+      }
+    }
+  }
+  .unsuccess {
+    background: #5c5c5c;
+    li {
+      background: var(--green);
+    }
+  }
+  .success {
+    background: var(--pink);
+    li {
+      background: #fd0c2c;
+      border-right: 1px dotted #000;
+    }
+  }
+.archievments {
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  
+  th, td {
+    vertical-align: top;
+    padding: 8px;
+  }
+  tbody tr ~ tr{
+    border-top: 1px solid #fff;
+  }
+  thead tr {
+    vertical-align: middle;
+    font-size: 16px;
+    border-bottom: 2px solid #fff;
+  }
+  thead {
+    th ~ th {
+      width: 35%;
+    }
+  }
+}
+
+.archievments_total{
+  display: grid;
+  background: #262626;
+  padding: 8px;
+  border-radius: 4px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: max-content max-content;
+  line-height: 1.4;
+  grid-template-areas: "header header header"
+        "col col col";
+        gap: 8px;
+        text-align: center;
+  dt {
+    grid-area: header;
+  }
+  dd {
+    display: grid;
+    gap: 8px;
+    grid-template-rows: max-content 1fr;
+    span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+
+    }
+
+  }
+}
+.archievments_controlls {
+  padding-left: 0;
+  display: flex;
+  list-style: none;
+  gap: 15px;
+  li {
+    flex-grow: 1;
+    button {
+      color: var(--pink);
+      border: none;
+      justify-content: center;
+      align-items: center;
+      height: 40px;
+      border-radius: 3px;
+      font-weight: bold;
+      background: #3c3838;
+      display: flex;
+      width: 100%;
+    }
+  }
+}

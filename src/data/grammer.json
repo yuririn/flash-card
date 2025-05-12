@@ -1,0 +1,201 @@
+[
+    {
+        "name": "Parts of Speech",
+        "slug": "parts-of-speech",
+        "jp": "品詞",
+        "level": "basic",
+        "explain": "品詞という単語の役割ごとの分類の仕方、品詞を見極めるコツについて解説。"
+    },
+    {
+        "name": "Sentence Structure",
+        "slug": "sentence-structure",
+        "jp": "基本文型",
+        "level": "basic",
+        "explain": "英語の文型とは基本構造を示すルールで、英語を読み解く上での文型の重要性や見極め方を解説。"
+    },
+    {
+        "name": "Articles",
+        "slug": "articles",
+        "jp": "冠詞",
+        "level": "basic",
+        "explain": "「不定冠詞（a / an）」と「定冠詞（the）」の使い分けやニュアンスについて説明。無冠詞の名詞、「the」を使う特別なケースについても解説。"
+    },
+    {
+        "name": "Countable/Uncountable Noun",
+        "slug": "countable-uncountable-noun",
+        "jp": "可算名詞・不可算名詞",
+        "level": "basic",
+        "explain": "数えられる名詞（可算名詞）と数えられない名詞（不可算名詞）、可算名詞と不可算名詞を理解すると、正しい表現ができるようになります。"
+    },
+    {
+        "name": "Phrase",
+        "slug": "phrase",
+        "jp": "フレーズ",
+        "level": "basic",
+        "explain": "句（フレーズ）は文章に詳細や補足情報を加える重要な役割を果たします。Phraseの種類や句動詞 (Phrasal Verbs) の語順ルールについて解説。"
+    },
+    {
+        "name": "Person",
+        "slug": "person",
+        "jp": "人称",
+        "level": "basic",
+        "explain": "「人称」の分け方やルール、人称ごとの関係代名詞や動詞の使い方について解説。"
+    },
+    {
+        "name": "Negative Sentence",
+        "slug": "negative-sentence",
+        "jp": "否定文",
+        "level": "basic",
+        "explain": "「not」を使って動作や状態を否定します。否定文の構築方法のルールについて解説。"
+    },
+    {
+        "name": "Interrogative Sentences",
+        "slug": "interrogative-sentences",
+        "jp": "疑問文",
+        "level": "basic",
+        "explain": "疑問文は、質問をするための文です。「Yes / No」で答えられる一般疑問文と「情報を求める」WH疑問文、より詳しい情報を尋ねることができる間接疑問文の使い方について解説。"
+    },
+    {
+        "name": "Intransitive/Transitive Verb",
+        "slug": "intransitive-transitive-verb",
+        "jp": "自/他動詞",
+        "level": "basic",
+        "explain": "「自動詞」と「他動詞」の違いや見極めるポイントについて解説。"
+    },
+    {
+        "name": "Tense Structure",
+        "slug": "tense-structure",
+        "jp": "時制構造",
+        "level": "middle",
+        "explain": "動詞の時制がどのように構築されているかを指します。時制構造は行動や状態のタイミングを表すために重要で、そのルールや文法について解説。"
+    },
+    {
+        "name": "Perfect Tense",
+        "slug": "perfect-tense",
+        "jp": "完了形",
+        "level": "middle",
+        "explain": "完了形を使うと、ある時点までに動作が完了していることを表現できます。そのルールや文法について解説します。"
+    },
+    {
+        "name": "Prepositions",
+        "slug": "prepositions",
+        "jp": "前置詞",
+        "level": "middle",
+        "explain": "名詞や代名詞と他の単語の関係を示す語です。間違えやすい用法や個々のイメージをイラストを使って解説。"
+    },
+    {
+        "name": "Conditionals",
+        "slug": "conditionals",
+        "jp": "条件文",
+        "level": "middle",
+        "explain": "ある状況が満たされた場合に結果が生じることを示す文構造。"
+    },
+    {
+        "name": "Modal Verbs",
+        "slug": "modal-verbs",
+        "jp": "助動詞",
+        "level": "middle",
+        "explain": "動詞に特定の意味を付加して、可能性、義務、能力、許可を加える。一部フォーマルな言い方にも使うことができる。"
+    },
+    {
+        "name": "Passive Voice",
+        "slug": "passive-voice",
+        "jp": "受動態",
+        "level": "middle",
+        "explain": "受動態を使うことで文章の焦点を変えることができます。受動態のルールの解説や決まり文句を紹介。"
+    },
+    {
+        "name": "Contrastive Structure",
+        "slug": "contrastive-structure",
+        "jp": "対比構造",
+        "level": "middle",
+        "explain": "Contrastive Structure（対比構造）は、異なる事柄を比較し、その違いを強調するための表現方法です。"
+    },
+    {
+        "name": "Relative Clause",
+        "slug": "relative-clause",
+        "jp": "関係節",
+        "level": "middle",
+        "explain": "補足する情報を簡潔に伝え、文章をスムーズに整理するための重要な構造"
+    },
+    {
+        "name": "That-clause Omission",
+        "slug": "that-clause-omission",
+        "jp": "that節の省略",
+        "level": "middle",
+        "explain": ""
+    },
+    {
+        "name": "To Infinitive",
+        "slug": "to-infinitive",
+        "jp": "to不定詞",
+        "level": "middle",
+        "explain": "To 不定詞は英語の基本ルールや表現の幅を広げるために学ぶべき重要な単元。"
+    },
+    
+    {
+        "name": "Gerund",
+        "slug": "gerund",
+        "jp": "動名詞",
+        "level": "middle",
+        "explain": "動名詞（Gerund）は動詞の-ing形で、名詞として機能する。to不定詞との違いや使い方を解説。"
+    },
+    
+    {
+        "name": "Complex Sentence Structure",
+        "slug": "complex-sentence-structure",
+        "jp": "複雑な文構造",
+        "level": "high",
+        "explain": ""
+    },
+    {
+        "name": "Difficult Vocabulary",
+        "slug": "difficult-vocabulary",
+        "jp": "難解な語彙",
+        "level": "high",
+        "explain": ""
+    },
+    {
+        "name": "Emphatic Construction",
+        "slug": "emphatic-construction",
+        "jp": "強調構文",
+        "level": "high",
+        "explain": ""
+    },
+    {
+        "name": "Participial Phrase",
+        "slug": "participial-phrase",
+        "jp": "分詞構文",
+        "level": "high",
+        "explain": ""
+    },
+    {
+        "name": "Subjunctive Mood",
+        "slug": "subjunctive-mood",
+        "jp": "仮定法",
+        "level": "high",
+        "explain": ""
+    },
+    
+    {
+        "name": "Collocations",
+        "slug": "collocations",
+        "jp": "連語・コロケーション",
+        "level": "expressions",
+        "explain": "単語同士が自然に組み合わさって使われる「おなじみの言葉の組み合わせ」"
+    },
+    {
+        "name": "Idiom",
+        "slug": "idiom",
+        "jp": "慣用句",
+        "level": "expressions",
+        "explain": "慣用句。特定の文化や言語に固有の表現。"
+    },
+    {
+        "name": "Informal Expressions",
+        "slug": "informal-expressions",
+        "jp": "カジュアルな表現",
+        "level": "expressions",
+        "explain": "カジュアルな会話をスムーズにしたり、親しみやすさを表現するために使われるフレーズや単語"
+    }
+]

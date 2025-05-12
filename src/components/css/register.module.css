@@ -1,0 +1,124 @@
+.nav {
+  display: grid;
+  list-style: none;
+  padding-left: 0;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  li {
+    margin-left: 0;
+  }
+  button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    padding: 16px;
+    border: none;
+    color: #fff;
+    border-radius: 3px;
+    opacity: 1!important;
+    font-weight: bold;
+    &:disabled {
+      border: 2px solid #fff;
+    }
+  }
+}
+.form {
+  margin-bottom: 50px;
+  padding: 16px;
+  background: #333333;
+  border-radius: 8px;
+  dl {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 8px;
+  }
+  button {
+    border: none;
+    height: 50px;
+    width: 80%;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    
+  }
+  input[type="password"],
+  input[type="text"] {
+    height: 40px;
+    display: block;
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 3px;
+  }
+  dt {
+    width: 100px;
+  }
+  dd {
+    width: calc(100% - 108px);
+    ul {
+      padding-left: 0;
+      margin-bottom: 16px;
+      display: grid;
+      gap: 7px;
+      li {
+        display: block;
+      }
+    }
+  }
+}
+.password {
+  display: flex;
+  background: #fff;
+  border: none;
+  height: 40px;
+  input {
+    margin-bottom: 0;
+  }
+  button {
+    height: 40px;
+    background: none;
+    width: max-content;
+    svg {
+      width: 30px;
+      fill :var(--green) 
+    }
+  }
+}
+.material {
+  overflow: auto;
+  display: grid;
+  gap: 3px;
+  background: #777;
+  border-radius: 12px;
+
+  li {
+    h3 {
+      margin-top: 0;
+    }
+    display: flex;
+    input {
+      display: none;
+    }
+    label {
+      padding: 16px;
+      display: block;
+    }
+    input:checked + label {
+      background: var(--yellow);
+      color: #000;
+    }
+  }
+}
+
+.btns {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 8px;
+button {
+  width: 100%;
+}
+}

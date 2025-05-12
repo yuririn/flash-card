@@ -1,0 +1,13 @@
+{
+    "multiier": 1.5,
+    "getData": "https://script.google.com/macros/s/AKfycby0aXJPYAJZPRNe52fYjxIIibla1tNOIVOvyvOmgLlDdYzED53gmVUepUulXCaVyoOijQ/exec",
+    "updateData": "https://script.google.com/macros/s/AKfycbwNBEYiVp5iOfbVWVh24OFJI85dZO3hG895aGt458LnsOfU9He52VPcInZ3CYSe73ZWjQ/exec",
+    "levels": [
+        { "name": "EXTREME", "durition": 1, "color": "red" },
+        { "name": "HARD", "durition": 4, "color": "orange" },
+        { "name": "MODERATE", "durition": 7, "color": "yellow" },
+        { "name": "EASY", "durition": 30, "color": "green" },
+        { "name": "DONE", "durition": 90, "color": "blue" }
+    ]
+}
+

@@ -1,0 +1,782 @@
+[
+  {
+    "quote": {
+      "jp": "私たちが恐れるべき唯一のものは、恐怖そのものです。",
+      "en": "The only thing we have to fear is fear itself."
+    },
+    "name": {
+      "jp": "フランクリン・D・ルーズベルト",
+      "en": "Franklin D. Roosevelt"
+    },
+    "lifetime": "1882–1945",
+    "profession": {
+      "jp": "アメリカ合衆国第32代大統領",
+      "en": "32nd President of the United States"
+    }
+  },
+  {
+    "quote": {
+      "jp": "我思う、ゆえに我あり。",
+      "en": "I think, therefore I am."
+    },
+    "name": {
+      "jp": "ルネ・デカルト",
+      "en": "René Descartes"
+    },
+    "lifetime": "1596–1650",
+    "profession": {
+      "jp": "哲学者、数学者",
+      "en": "Philosopher, Mathematician"
+    }
+  },
+  {
+    "quote": {
+      "jp": "どこかでの不正義は、どこでも正義への脅威です。",
+      "en": "Injustice anywhere is a threat to justice everywhere."
+    },
+    "name": {
+      "jp": "マーティン・ルーサー・キング・ジュニア",
+      "en": "Martin Luther King Jr."
+    },
+    "lifetime": "1929–1968",
+    "profession": {
+      "jp": "公民権運動指導者",
+      "en": "Civil Rights Leader"
+    }
+  },
+  {
+    "quote": {
+      "jp": "生きるべきか、死ぬべきか。それが問題だ。",
+      "en": "To be, or not to be: that is the question."
+    },
+    "name": {
+      "jp": "ウィリアム・シェイクスピア",
+      "en": "William Shakespeare"
+    },
+    "lifetime": "1564–1616",
+    "profession": {
+      "jp": "劇作家、詩人",
+      "en": "Playwright, Poet"
+    }
+  },
+  {
+    "quote": {
+      "jp": "吟味されない人生は、生きるに値しない。",
+      "en": "An unexamined life is not worth living."
+    },
+    "name": {
+      "jp": "ソクラテス",
+      "en": "Socrates"
+    },
+    "lifetime": "469–399 BCE",
+    "profession": {
+      "jp": "哲学者",
+      "en": "Philosopher"
+    }
+  },
+  {
+    "quote": {
+      "jp": "想像力は知識よりも重要である。",
+      "en": "Imagination is more important than knowledge."
+    },
+    "name": {
+      "jp": "アルバート・アインシュタイン",
+      "en": "Albert Einstein"
+    },
+    "lifetime": "1879–1955",
+    "profession": {
+      "jp": "物理学者",
+      "en": "Physicist"
+    }
+  },
+  {
+    "quote": {
+      "jp": "幸福は自分自身にかかっている。",
+      "en": "Happiness depends upon ourselves."
+    },
+    "name": {
+      "jp": "アリストテレス",
+      "en": "Aristotle"
+    },
+    "lifetime": "384–322 BCE",
+    "profession": {
+      "jp": "哲学者",
+      "en": "Philosopher"
+    }
+  },
+  {
+    "quote": {
+      "jp": "成功は最終的なものではなく、失敗は致命的ではない。重要なのは続ける勇気だ。",
+      "en": "Success is not final, failure is not fatal: It is the courage to continue that counts."
+    },
+    "name": {
+      "jp": "ウィンストン・チャーチル",
+      "en": "Winston Churchill"
+    },
+    "lifetime": "1874–1965",
+    "profession": {
+      "jp": "イギリス首相",
+      "en": "Prime Minister of the United Kingdom"
+    }
+  },
+  {
+    "quote": {
+      "jp": "できることを、持っているもので、いる場所でやりなさい。",
+      "en": "Do what you can, with what you have, where you are."
+    },
+    "name": {
+      "jp": "セオドア・ルーズベルト",
+      "en": "Theodore Roosevelt"
+    },
+    "lifetime": "1858–1919",
+    "profession": {
+      "jp": "アメリカ合衆国第26代大統領",
+      "en": "26th President of the United States"
+    }
+  },
+  {
+    "quote": {
+      "jp": "未来を予測する最良の方法は、それを創造することだ。",
+      "en": "The best way to predict the future is to create it."
+    },
+    "name": {
+      "jp": "ピーター・ドラッカー",
+      "en": "Peter Drucker"
+    },
+    "lifetime": "1909–2005",
+    "profession": {
+      "jp": "経営コンサルタント、著者",
+      "en": "Management Consultant, Author"
+    }
+  },
+  {
+    "quote": {
+      "jp": "流行は色褪せるが、スタイルは永遠である。",
+      "en": "Fashion fades, only style remains the same."
+    },
+    "name": {
+      "jp": "ココ・シャネル",
+      "en": "Coco Chanel"
+    },
+    "lifetime": "1883–1971",
+    "profession": {
+      "jp": "ファッションデザイナー",
+      "en": "Fashion Designer"
+    }
+  },
+  {
+    "quote": {
+      "jp": "自分らしくあるためには、人と違っていても良いのです。",
+      "en": "To be yourself, you don't have to be like anyone else."
+    },
+    "name": {
+      "jp": "黒柳徹子",
+      "en": "Tetsuko Kuroyanagi"
+    },
+    "lifetime": "1933–現在",
+    "profession": {
+      "jp": "女優、作家、ユニセフ親善大使",
+      "en": "Actress, Author, UNICEF Goodwill Ambassador"
+    }
+  },
+  {
+    "quote": {
+      "jp": "あなたの心が本当に自由ならば、何をしても幸せでいられるでしょう。",
+      "en": "If your heart is truly free, you will be happy whatever you do."
+    },
+    "name": {
+      "jp": "ダイアナ妃",
+      "en": "Princess Diana"
+    },
+    "lifetime": "1961–1997",
+    "profession": {
+      "jp": "元イギリス王妃、慈善活動家",
+      "en": "Former Princess of Wales, Philanthropist"
+    }
+  },
+  {
+    "quote": {
+      "jp": "私は完璧ではありませんが、私は本物です。",
+      "en": "I'm not perfect, but I'm real."
+    },
+    "name": {
+      "jp": "マリリン・モンロー",
+      "en": "Marilyn Monroe"
+    },
+    "lifetime": "1926–1962",
+    "profession": {
+      "jp": "女優、歌手",
+      "en": "Actress, Singer"
+    }
+  },
+  {
+    "quote": {
+      "jp": "他の人々に親切であること、それが本当の人間性です。",
+      "en": "As you grow older, you will discover that you have two hands: one for helping yourself, the other for helping others."
+    },
+    "name": {
+      "jp": "オードリー・ヘプバーン",
+      "en": "Audrey Hepburn"
+    },
+    "lifetime": "1929–1993",
+    "profession": {
+      "jp": "女優、ユニセフ親善大使",
+      "en": "Actress, UNICEF Goodwill Ambassador"
+    }
+  },
+  {
+    "quote": {
+      "jp": "想像力が私たちに翼を与える。",
+      "en": "Imagination gives us wings to fly."
+    },
+    "name": {
+      "jp": "ルーシー・モード・モンゴメリ",
+      "en": "Lucy Maud Montgomery"
+    },
+    "lifetime": "1874–1942",
+    "profession": {
+      "jp": "作家",
+      "en": "Author"
+    }
+  },
+  {
+    "quote": {
+      "jp": "最悪の状況を乗り越えるには、希望を持ち続ける必要があります。",
+      "en": "Keep your face to the sunshine and you cannot see the shadow."
+    },
+    "name": {
+      "jp": "ヘレン・ケラー",
+      "en": "Helen Keller"
+    },
+    "lifetime": "1880–1968",
+    "profession": {
+      "jp": "作家、講演家、活動家",
+      "en": "Author, Speaker, Activist"
+    }
+  },
+  {
+    "quote": {
+      "jp": "私は将来のために努力しています。今日のためではありません。",
+      "en": "I keep my ideals, because in spite of everything I still believe that people are really good at heart."
+    },
+    "name": {
+      "jp": "アンネ・フランク",
+      "en": "Anne Frank"
+    },
+    "lifetime": "1929–1945",
+    "profession": {
+      "jp": "日記著者",
+      "en": "Diary Author"
+    }
+  },
+  {
+    "quote": {
+      "jp": "行動は言葉よりも雄弁です。",
+      "en": "Actions speak louder than words."
+    },
+    "name": {
+      "jp": "ネリー・ブライ",
+      "en": "Nellie Bly"
+    },
+    "lifetime": "1864–1922",
+    "profession": {
+      "jp": "ジャーナリスト、旅行者",
+      "en": "Journalist, Traveler"
+    }
+  },
+    {
+        "quote": {
+            "jp": "解析機関は、数値だけでなく、音楽や芸術を生み出す可能性を秘めています。",
+            "en": "The Analytical Engine might act upon other things besides numbers, if objects were represented by other symbols."
+        },
+        "name": {
+            "jp": "エイダ・ラブレス",
+            "en": "Ada Lovelace"
+        },
+        "lifetime": "1815–1852",
+        "profession": {
+            "jp": "数学者、世界初のプログラマー",
+            "en": "Mathematician, World's First Programmer"
+        }
+    },
+    {
+        "quote": {
+            "jp": "未来を予測する最良の方法は、それを創造することです。",
+            "en": "The best way to predict the future is to invent it."
+        },
+        "name": {
+            "jp": "アラン・ケイ",
+            "en": "Alan Kay"
+        },
+        "lifetime": "1940–現在",
+        "profession": {
+            "jp": "コンピューター科学者、Smalltalkの開発者",
+            "en": "Computer Scientist, Developer of Smalltalk"
+        }
+    },
+    {
+        "quote": {
+            "jp": "シンプルさは究極の洗練です。",
+            "en": "Simplicity is the ultimate sophistication."
+        },
+        "name": {
+            "jp": "スティーブ・ジョブズ",
+            "en": "Steve Jobs"
+        },
+        "lifetime": "1955–2011",
+        "profession": {
+            "jp": "Apple共同創設者、起業家",
+            "en": "Co-founder of Apple, Entrepreneur"
+        }
+    },
+    {
+        "quote": {
+            "jp": "コンピューターは、質問をすることを教えてくれる。",
+            "en": "Computers are useless. They can only give you answers."
+        },
+        "name": {
+            "jp": "パブロ・ピカソ",
+            "en": "Pablo Picasso"
+        },
+        "lifetime": "1881–1973",
+        "profession": {
+            "jp": "画家、彫刻家",
+            "en": "Painter, Sculptor"
+        }
+    },
+    {
+        "quote": {
+            "jp": "コードを書くことは、未来を形作ることです。",
+            "en": "Writing code is shaping the future."
+        },
+        "name": {
+            "jp": "グレース・ホッパー",
+            "en": "Grace Hopper"
+        },
+        "lifetime": "1906–1992",
+        "profession": {
+            "jp": "コンピューター科学者、COBOLの開発者",
+            "en": "Computer Scientist, Developer of COBOL"
+        }
+    },
+    {
+        "quote": {
+            "jp": "シンプルさは究極の洗練です。",
+            "en": "Simplicity is the ultimate sophistication."
+        },
+        "name": {
+            "jp": "スティーブ・ジョブズ",
+            "en": "Steve Jobs"
+        },
+        "lifetime": "1955–2011",
+        "profession": {
+            "jp": "Apple共同創設者、起業家",
+            "en": "Co-founder of Apple, Entrepreneur"
+        }
+    },
+    {
+        "quote": {
+            "jp": "何かが十分に重要であるならば、たとえ可能性が低くてもそれを実行する。",
+            "en": "When something is important enough, you do it even if the odds are not in your favor."
+        },
+        "name": {
+            "jp": "イーロン・マスク",
+            "en": "Elon Musk"
+        },
+        "birth": "1971-06-28",
+        "profession": {
+            "jp": "Tesla, SpaceX創業者",
+            "en": "Founder of Tesla, SpaceX"
+        }
+    },
+    {
+        "quote": {
+            "jp": "最大のリスクは、リスクを取らないことだ。",
+            "en": "The biggest risk is not taking any risk."
+        },
+        "name": {
+            "jp": "マーク・ザッカーバーグ",
+            "en": "Mark Zuckerberg"
+        },
+        "birth": "1984-05-14",
+        "profession": {
+            "jp": "Facebook創業者",
+            "en": "Founder of Facebook"
+        }
+    },
+    {
+        "quote": {
+            "jp": "批判されたくないなら、新しいことを何もするな。",
+            "en": "If you never want to be criticized, for goodness' sake don't do anything new."
+        },
+        "name": {
+            "jp": "ジェフ・ベゾス",
+            "en": "Jeff Bezos"
+        },
+        "birth": "1964-01-12",
+        "profession": {
+            "jp": "Amazon創業者",
+            "en": "Founder of Amazon"
+        }
+    },
+    {
+        "quote": {
+            "jp": "最も不満を持つ顧客こそが、最大の学びの源である。",
+            "en": "Your most unhappy customers are your greatest source of learning."
+        },
+        "name": {
+            "jp": "ビル・ゲイツ",
+            "en": "Bill Gates"
+        },
+        "birth": "1955-10-28",
+        "profession": {
+            "jp": "Microsoft共同創業者",
+            "en": "Co-founder of Microsoft"
+        }
+    },
+    {
+        "quote": {
+            "jp": "常に少し不安になるほどワクワクすることに取り組みなさい！",
+            "en": "Always work on something uncomfortably exciting!"
+        },
+        "name": {
+            "jp": "ラリー・ペイジ",
+            "en": "Larry Page"
+        },
+        "birth": "1973-03-26",
+        "profession": {
+            "jp": "Google共同創業者",
+            "en": "Co-founder of Google"
+        }
+    },
+    {
+        "quote": {
+            "jp": "人民の、人民による、人民のための政治は、この地上から消え去ってはならない。",
+            "en": "Government of the people, by the people, for the people, shall not perish from the Earth."
+        },
+        "name": {
+            "jp": "エイブラハム・リンカーン",
+            "en": "Abraham Lincoln"
+        },
+        "lifetime": "1809–1865",
+        "profession": {
+            "jp": "アメリカ合衆国第16代大統領",
+            "en": "16th President of the United States"
+        }
+    },
+    {
+        "quote": {
+            "jp": "もし木を切り倒すのに6時間与えられたら、私は最初の4時間を斧を研ぐのに費やすだろう。",
+            "en": "If I had six hours to chop down a tree, I’d spend the first four hours sharpening the axe."
+        },
+        "name": {
+            "jp": "エイブラハム・リンカーン",
+            "en": "Abraham Lincoln"
+        },
+        "lifetime": "1809–1865",
+        "profession": {
+            "jp": "アメリカ合衆国第16代大統領",
+            "en": "16th President of the United States"
+        }
+    },
+    {
+        "quote": {
+            "jp": "大抵の人々は、自分で決心した程度だけ幸福になれる。",
+            "en": "Most folks are about as happy as they make up their minds to be."
+        },
+        "name": {
+            "jp": "エイブラハム・リンカーン",
+            "en": "Abraham Lincoln"
+        },
+        "lifetime": "1809–1865",
+        "profession": {
+            "jp": "アメリカ合衆国第16代大統領",
+            "en": "16th President of the United States"
+        }
+    },
+    {
+        "quote": {
+            "jp": "パンがなければケーキを食べればいいじゃない。",
+            "en": "Let them eat cake."
+        },
+        "name": {
+            "jp": "マリー・アントワネット",
+            "en": "Marie Antoinette"
+        },
+        "lifetime": "1755–1793",
+        "profession": {
+            "jp": "フランス王妃",
+            "en": "Queen of France"
+        }
+    },
+    {
+        "quote": {
+            "jp": "自由の秘密は人々を教育することにあり、圧政の秘密は人々を無知のままにしておくことにある。",
+            "en": "The secret of freedom lies in educating people, whereas the secret of tyranny is in keeping them ignorant."
+        },
+        "name": {
+            "jp": "ロベスピエール",
+            "en": "Maximilien Robespierre"
+        },
+        "lifetime": "1758–1794",
+        "profession": {
+            "jp": "弁護士、フランス革命指導者",
+            "en": "Lawyer, Leader of the French Revolution"
+        }
+    },
+    {
+        "quote": {
+            "jp": "不可能という言葉は愚者の辞書にしか存在しない。",
+            "en": "Impossible is a word to be found only in the dictionary of fools."
+        },
+        "name": {
+            "jp": "ナポレオン・ボナパルト",
+            "en": "Napoleon Bonaparte"
+        },
+        "lifetime": "1769–1821",
+        "profession": {
+            "jp": "フランス皇帝、軍事指導者",
+            "en": "Emperor of France, Military Leader"
+        }
+    },
+    {
+        "quote": {
+            "jp": "朕は国家なり。",
+            "en": "I am the state."
+        },
+        "name": {
+            "jp": "ルイ14世",
+            "en": "Louis XIV"
+        },
+        "lifetime": "1638–1715",
+        "profession": {
+            "jp": "フランス王、太陽王",
+            "en": "King of France, The Sun King"
+        }
+    },
+    {
+        "quote": {
+            "jp": "生きるうえで最も偉大な栄光は、決して転ばないことにあるのではない。転ぶたびに起き上がり続けることにある。",
+            "en": "The greatest glory in living lies not in never falling, but in rising every time we fall."
+        },
+        "name": {
+            "jp": "ネルソン・マンデラ",
+            "en": "Nelson Mandela"
+        },
+        "lifetime": "1918–2013",
+        "profession": {
+            "jp": "南アフリカ共和国大統領、反アパルトヘイト活動家",
+            "en": "President of South Africa, Anti-Apartheid Activist"
+        }
+    },
+    {
+        "quote": {
+            "jp": "教育とは、世界を変えるために用いることができる、最も強力な武器である。",
+            "en": "Education is the most powerful weapon which you can use to change the world."
+        },
+        "name": {
+            "jp": "ネルソン・マンデラ",
+            "en": "Nelson Mandela"
+        },
+        "lifetime": "1918–2013",
+        "profession": {
+            "jp": "南アフリカ共和国大統領、反アパルトヘイト活動家",
+            "en": "President of South Africa, Anti-Apartheid Activist"
+        }
+    },
+    {
+        "quote": {
+            "jp": "自由であるというのは、単に己の鎖を脱ぎ捨てるだけではなく、他人の自由を尊重し、向上させるような生き方をすることである。",
+            "en": "For to be free is not merely to cast off one’s chains, but to live in a way that respects and enhances the freedom of others."
+        },
+        "name": {
+            "jp": "ネルソン・マンデラ",
+            "en": "Nelson Mandela"
+        },
+        "lifetime": "1918–2013",
+        "profession": {
+            "jp": "南アフリカ共和国大統領、反アパルトヘイト活動家",
+            "en": "President of South Africa, Anti-Apartheid Activist"
+        }
+    },
+    {
+        "quote": {
+            "jp": "教育の根は苦いが、その果実は甘い。",
+            "en": "The roots of education are bitter, but the fruit is sweet."
+        },
+        "name": {
+            "jp": "アリストテレス",
+            "en": "Aristotle"
+        },
+        "lifetime": "384 BCE–322 BCE",
+        "profession": {
+            "jp": "哲学者、万学の祖",
+            "en": "Philosopher, Father of Western Philosophy"
+        }
+    },
+    {
+        "quote": {
+            "jp": "我々の性格は、我々の行動の結果なり。",
+            "en": "Our character is the result of our conduct."
+        },
+        "name": {
+            "jp": "アリストテレス",
+            "en": "Aristotle"
+        },
+        "lifetime": "384 BCE–322 BCE",
+        "profession": {
+            "jp": "哲学者、万学の祖",
+            "en": "Philosopher, Father of Western Philosophy"
+        }
+    },
+    {
+        "quote": {
+            "jp": "愛というものは、愛されることによりも、むしろ愛することに存する。",
+            "en": "Love consists in loving rather than in being loved."
+        },
+        "name": {
+            "jp": "アリストテレス",
+            "en": "Aristotle"
+        },
+        "lifetime": "384 BCE–322 BCE",
+        "profession": {
+            "jp": "哲学者、万学の祖",
+            "en": "Philosopher, Father of Western Philosophy"
+        }
+    },
+    {
+        "quote": {
+            "jp": "幸福は暇にこそあると思われる。",
+            "en": "Happiness is thought to depend on leisure."
+        },
+        "name": {
+            "jp": "アリストテレス",
+            "en": "Aristotle"
+        },
+        "lifetime": "384 BCE–322 BCE",
+        "profession": {
+            "jp": "哲学者、万学の祖",
+            "en": "Philosopher, Father of Western Philosophy"
+        }
+    },
+    {
+        "quote": {
+            "jp": "賽は投げられた。",
+            "en": "The die is cast."
+        },
+        "name": {
+            "jp": "ユリウス・カエサル",
+            "en": "Julius Caesar"
+        },
+        "lifetime": "紀元前100年–紀元前44年",
+        "profession": {
+            "jp": "共和政ローマの政治家、軍人",
+            "en": "Roman Politician, Military Leader"
+        }
+    },
+    {
+        "quote": {
+            "jp": "国を支配しているのは男。その男たちを支配しているのは私。",
+            "en": "The men who rule the country are ruled by me."
+        },
+        "name": {
+            "jp": "クレオパトラ",
+            "en": "Cleopatra"
+        },
+        "lifetime": "紀元前69年–紀元前30年",
+        "profession": {
+            "jp": "古代エジプトの女王",
+            "en": "Queen of Ancient Egypt"
+        }
+    },
+    {
+        "quote": {
+            "jp": "道可道、非常道。名可名、非常名。",
+            "en": "The Tao that can be told is not the eternal Tao; the name that can be named is not the eternal name."
+        },
+        "name": {
+            "jp": "老子",
+            "en": "Laozi"
+        },
+        "lifetime": "紀元前571年–紀元前471年（推定）",
+        "profession": {
+            "jp": "哲学者、道教の創始者",
+            "en": "Philosopher, Founder of Taoism"
+        }
+    },
+    {
+        "quote": {
+            "jp": "為せば成る、為さねば成らぬ。何事も成らぬは人の為さぬなり。",
+            "en": "If you try, you can succeed. If you don't try, you will never succeed."
+        },
+        "name": {
+            "jp": "上杉鷹山",
+            "en": "Uesugi Yozan"
+        },
+        "lifetime": "1751–1822",
+        "profession": {
+            "jp": "米沢藩藩主",
+            "en": "Feudal Lord of Yonezawa Domain"
+        }
+    },
+    {
+        "quote": {
+            "jp": "やってみせ、言って聞かせて、させてみせ、褒めてやらねば人は動かじ。",
+            "en": "Lead by example, and people will follow."
+        },
+        "name": {
+            "jp": "山本五十六",
+            "en": "Isoroku Yamamoto"
+        },
+        "lifetime": "1884–1943",
+        "profession": {
+            "jp": "大日本帝国海軍元帥",
+            "en": "Admiral of the Imperial Japanese Navy"
+        }
+    },
+    {
+        "quote": {
+            "jp": "是非に及ばず。",
+            "en": "It cannot be helped."
+        },
+        "name": {
+            "jp": "織田信長",
+            "en": "Oda Nobunaga"
+        },
+        "lifetime": "1534–1582",
+        "profession": {
+            "jp": "戦国時代の武将",
+            "en": "Samurai Warlord"
+        }
+    },
+    {
+        "quote": {
+            "jp": "夢なき者に成功なし。",
+            "en": "Without dreams, there can be no success."
+        },
+        "name": {
+            "jp": "吉田松陰",
+            "en": "Yoshida Shoin"
+        },
+        "lifetime": "1830–1859",
+        "profession": {
+            "jp": "思想家、教育者",
+            "en": "Thinker, Educator"
+        }
+    },
+    {
+        "quote": {
+            "jp": "面白きこともなき世を面白く住みなすものは心なりけり。",
+            "en": "A dull world can be made interesting by one's own heart."
+        },
+        "name": {
+            "jp": "高杉晋作",
+            "en": "Takasugi Shinsaku"
+        },
+        "lifetime": "1839–1867",
+        "profession": {
+            "jp": "幕末の志士",
+            "en": "Samurai and Activist of the Late Edo Period"
+        }
+    }
+]

@@ -1,0 +1,50 @@
+.quote {
+  padding: 12px;
+  h2 {
+    font-size: 32px;
+  }
+  blockquote {
+    display: block;
+    padding: 16px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    background: #2a2a2c;
+    border-radius: 16px;
+    font-style: italic;
+    margin: 0;
+  }
+}
+.main {
+  letter-spacing: 0.1em;
+  font-size: 12px;
+  p:first-child {
+    font-size: 24px;
+  }
+}
+.footer {
+  text-align: right;
+  p {
+    margin-top: 0;
+    margin-bottom: 8px;
+    small {
+      font-size: 10px;
+    }
+  }
+  small {
+    margin-top: 3px;
+    display: block;
+  }
+}
+.essaybody_head {
+  margin-bottom: 32px;
+
+}
+.essaybody {
+  line-height: 1.4;
+  font-weight: normal;
+  font-family: 'Noto Sans',sans-serif;
+
+  p {
+
+  }
+}
