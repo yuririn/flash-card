@@ -120,7 +120,7 @@ const FlashCard = ({ item, onSlugUpdate, setAchievements, removeCard }) => {
                                         }
                                     }}
                                 >
-                                    {currentItem.jp}
+                                    {currentItem?.jp}
                                 </button>
                             })}
                         </dd>

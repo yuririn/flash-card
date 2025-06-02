@@ -4,8 +4,9 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Achievements from "./pages/Achievements";
 import Grammar from "./pages/Grammar";
-import './styles.css';
 import Admin from "./pages/Admin";
+import InstantComposition from "./pages/InstantComposition";
+import './styles.css';
 
 function AppRoutes() {
     const navigate = useNavigate();
@@ -44,9 +45,9 @@ function AppRoutes() {
 
 
     const handleLogin =  () => {
-            localStorage.removeItem("userInfo");
-            setStrage({ username: null, id: null, target: 0, material: null })
-            navigate("/login");
+        localStorage.removeItem("userInfo");
+        setStrage({ username: null, id: null, target: 0, material: null })
+        navigate("/login");
     }
 
     return (
@@ -69,9 +70,10 @@ function AppRoutes() {
                     </header>
                     <Routes>
                         <Route path="/" element={<Home  strage={strage}/>} />
-                    <Route path="/login/" element={<Login />} />
+                        <Route path="/login/" element={<Login />} />
+                        <Route path="/composition/" element={<InstantComposition />} />
                         <Route path="/achievements/" element={<Achievements />} />
-                    <Route path="/admin/" element={<Admin strage={strage} setStrage={setStrage} />} />
+                        <Route path="/admin/" element={<Admin strage={strage} setStrage={setStrage} />} />
                         <Route path="/grammar/" element={<Grammar />} />
                         <Route path="/grammar/:slug" element={<Grammar />} />
                     </Routes>
@@ -80,6 +82,7 @@ function AppRoutes() {
                     <ul>
                         <li><Link to="/">💪</Link></li>
                         <li><Link to="/grammar/">📕</Link></li>
+                    <li><Link to="/composition/">🚀</Link></li>
                         <li><Link to="/achievements/">🏆️</Link></li>
                         <li><Link to="/admin/">⚙️</Link></li>
                     </ul>

@@ -1,0 +1,35 @@
+services:
+  flashcard_app:
+    build:
+      context: ./docker/web
+    container_name: flashcard_app
+    volumes:
+      - ./app:/var/www/app # Slimのアプリケーションロジック
+      - ./public:/var/www/public # Reactのビルド済みファイルを配置
+      - ./docker/web/php.ini:/usr/local/etc/php/php.ini # PHP設定ファイルをコンテナにマウント
+      - ./docker/web/php_errors.log:/var/log/php_errors.log # PHPエラー出力
+      - ./docker/web/000-default.conf:/etc/apache2/sites-available/000-default.conf
+    ports:
+      - "8080:80" # ローカルでポート8080で公開
+    networks:
+      - flashcard_network
+
+  flashcard_db:
+    image: mysql:8.0
+    container_name: flashcard_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - ./docker/db/init.sql:/docker-entrypoint-initdb.d/init.sql # ファイル名を統一
+    ports:
+      - "3306:3306"
+    networks:
+      - flashcard_network
+
+networks:
+  flashcard_network:
+    driver: bridge
