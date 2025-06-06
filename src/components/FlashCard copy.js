@@ -1,26 +1,28 @@
-import React, { useState, useRef, useContext } from "react";
-import styles from './css/Flashcard.module.css';
-import ReadOut from './ReadOut';
+import React, { useState, useRef } from "react";
 import { marked } from "marked";
+import MarkdownContent from './MarkdownContent';
 import { compareKeywordArrays } from '../utilities/keywordUtils'; // ユーティリティをインポート
 import { processKeywordData } from '../utilities/processKeywordData'; // ユーティリティをインポート
-import MarkdownContent from './MarkdownContent';
-import grammarData from "../data/grammer.json";
 import UpdateCard from "./UpdateCard";
-import { SettingsContext } from "../App";
+import ReadOut from './ReadOut';
+import styles from './css/Flashcard.module.css';
+import grammarData from "../data/grammer.json";
 
-const FlashCard = (props) => {
-    const { settings, updateSettings } = useContext(SettingsContext);
-    const [isHidden, setIsHidden] = useState(false);
-    const { item, onSlugUpdate, onDelete, setAchievements } = props;
-    const safeItem = item && typeof item === "object" ? item : { question: "データがありません" };
-    const { id, question, keyword, japanese, genre, level = null, count = 0, words, tips } = safeItem;
+const FlashCard = ({ item, onSlugUpdate, setAchievements, removeCard }) => {
     const nodeRef = useRef(null);
-    const [currentButton, setCurrentButton] = useState(null);
-    const [displayContent, setDisplayContent] = useState(null);
-    const [highlightedKeyword, setHighlightedKeyword] = useState(null);
 
+    const [isHidden, setIsHidden] = useState(false); 
+
+    // item が undefined や null だった場合にデフォルト値を適用
+    const safeItem = item && typeof item === "object" ? item : { question: "データがありません" };
+
+    const { id, question, keyword, japanese, genre, level = null, count = 0, words, tips } = safeItem;
+    
+    const [highlightedKeyword, setHighlightedKeyword] = useState(null);
+    const [displayContent, setDisplayContent] = useState(null);
+    const [currentButton, setCurrentButton] = useState(null);
     const hints = processKeywordData(keyword);
+
     const handleKeywordClick = (clickedKeyword) => {
 
         // 音声を再生する処理
@@ -29,7 +31,7 @@ const FlashCard = (props) => {
             try {
                 speechSynthesis.cancel(); // 現在の音声再生を停止
                 const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = settings.lang; // 言語設定
+                utterance.lang = 'en-US'; // 言語設定
                 utterance.rate = rate; // 再生速度の設定
                 speechSynthesis.speak(utterance); // 再生開始
             } catch (error) {
@@ -65,9 +67,16 @@ const FlashCard = (props) => {
             setCurrentButton(null);
         } else {
             setDisplayContent(
-                `${japanese}   
-                ${tips}`);
+            `${japanese}   
+            ${tips}`);
             setCurrentButton("JP");
+        }
+    };
+
+    // ✅ 親コンポーネントから受け取ったデータを使ってカードを非表示にする
+    const onUpdate = (updateId) => {
+        if (updateId === id) {
+            setIsHidden(true); // ✅ ID が一致した場合、非表示状態にする
         }
     };
 
@@ -80,17 +89,18 @@ const FlashCard = (props) => {
                         onKeywordClick={handleKeywordClick}
                         highlightedKeyword={highlightedKeyword}
                     />
-                    <ul className={styles.flashcardController}>
-                        <ReadOut question={question} />
-                        <li>
-                            <button
-                                className={currentButton === "JP" ? "jp-button current" : "jp-button"}
-                                onClick={handleJPButtonClick}
-                            >
-                                <i>🇯🇵</i> JP
-                            </button>
-                        </li>
-                    </ul>
+
+                     <ul className={styles.flashcardController}>
+                         <ReadOut question={question} />
+                         <li>
+                             <button
+                                 className={currentButton === "JP" ? "jp-button current" : "jp-button"}
+                                 onClick={handleJPButtonClick}
+                             >
+                                 <i>🇯🇵</i> JP
+                             </button>
+                         </li>
+                     </ul>
                     {displayContent && (
                         <div
                             className={styles.displayContent}
@@ -116,17 +126,16 @@ const FlashCard = (props) => {
                         </dd>
                     </dl>
                 </div>
+                <UpdateCard
+                    currentLevel={level}
+                    count={count}
+                    wordsTotal={words}
+                    id={id}
+                    setAchievements={setAchievements}
+                    onUpdate={onUpdate}
+                    removeCard={removeCard}
+                />
             </div>
-            <UpdateCard
-                level={level}
-                count={count || 0}
-                wordsTotal={words}
-                onDelete={onDelete}
-                words={words}
-                id={id}
-                setIsHidden={setIsHidden}
-                setAchievements={setAchievements}
-            />
         </section>
     );
 };

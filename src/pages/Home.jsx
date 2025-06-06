@@ -1,131 +1,215 @@
-import React, { useState, useEffect, useRef } from "react";
-import FlashCard from "../components/FlashCard";
-import LoadingContent from "../components/LoadingContent";
-import Hint from "../components/Hint";
-import DailyAchievment from "../components/DailyAchievment";
+import React, { useState, useEffect, useContext } from "react";
 import App from "../data/app.json";
-import { processQuizData } from "../utilities/processQuizData";
+import { openDB, getAllData, getData, deleteKey, addData } from "../utilities/indexedDBUtils";
+import { calculateTargetValue, fetchMaterialData, TODAY } from "../utilities/commonUtils";
+import FlashCard from "../components/FlashCard";
+import Hint from "../components/Hint";
+import { SettingsContext } from "../App";
+import DailyAchievment from "../components/DailyAchievment";
 
-const Home = ({ strage }) => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+// indexedDB.deleteDatabase("EnglishFlashCardDB");
+const Home = () => {
+    
+    const { settings, updateSettings } = useContext(SettingsContext);
+    const { target, material } = settings;
     const [data, setData] = useState([]);
-    const [achievements, setAchievements] = useState({ word: 0, sentence: 0, material: undefined });
     const [selectedSlug, setSelectedSlug] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [countdown, setCountdown] = useState(5);
-    const isFetchedFlashcard = useRef(false); // ✅ フラグを追加
+
+    const [achievements, setAchievements] = useState({ word: 0, sentence: 0});
+
+    useEffect(() => {
+        if (!material) {
+            console.warn("material の値が不正です。リクエストを送信しません。");
+            return;
+        }
+        const key = `${TODAY}_${settings.material}`;
+
+        // deleteKey("dailyFlashCardScores", key)
+
+        // IndexedDB を初期化
+        // openDB("dailyFlashCardScores", 1).then(() => {
+        //     fetch(`${App.getData}?userid=${0}&days=60`)
+        //         .then(res => res.json())
+        //         .then(records => {
+        //             if (!records.dailyRecord || records.dailyRecord.length === 0) {
+        //                 console.warn("データなし");
+        //                 return;
+        //             }
+
+        //             const levels = [
+        //                 { name: "EXTREME", duration: 1, color: "red" },
+        //                 { name: "HARD", duration: 4, color: "orange" },
+        //                 { name: "MODERATE", duration: 7, color: "yellow" },
+        //                 { name: "EASY", duration: 30, color: "green" }
+        //             ];
+
+        //             const idTracker = new Map();
+        //             const processedRecords = records.dailyRecord.map(i => {
+        //                 if (!i.details || !i.date) {
+        //                     console.warn("不正なデータ:", i);
+        //                     return null;
+        //                 }
+
+        //                 const ids = i.details.split('_')[1].split(',').map(Number).sort((a, b) => a - b);
+        //                 const details = ids.map(id => {
+        //                     const count = idTracker.get(id) || 0;
+        //                     const level = levels[Math.min(count, levels.length - 1)];
+        //                     const dueDateTimestamp = new Date(i.date);
+        //                     dueDateTimestamp.setDate(dueDateTimestamp.getDate() + level.duration);
+
+        //                     idTracker.set(id, count + 1);
+        //                     return { id, level: level.name, dueDate: dueDateTimestamp.toISOString().split("T")[0] };
+        //                 });
+
+        //                 return {
+        //                     uniqueKey: `${i.date}_${i.material}`, // ✅ ユニークキーを明示的に設定
+        //                     date: i.date,
+        //                     material: i.material,
+        //                     details
+        //                 };
+        //             }).filter(Boolean);
+
+        //             setDailyRecord(processedRecords);
+
+        //             // IndexedDB に 1 件ずつデータを追加
+        //             processedRecords.forEach(record => {
+        //                 addData("dailyFlashCardScores", record)
+        //                     .then(() => console.log("保存成功:", record.uniqueKey))
+        //                     .catch(error => console.error("保存エラー:", error));
+        //             });
+
+        //             // データ保存後に全データを取得
+        //             setTimeout(() => {
+        //                 getData("dailyFlashCardScores")
+        //                     .then(storedData => console.log("IndexedDB に保存されたデータ:", storedData))
+        //                     .catch(error => console.error("IndexedDB 取得エラー:", error));
+        //             }, 2000); // ✅ `setTimeout()` を使い、確実にデータ登録後に取得
+        //         });
+        // });
+
+
+        const fetchData = async () => {
+            try {
+                
+                // 🌐 外部データ取得
+                const materialData = await fetchMaterialData(material);
+
+                // 💾 IndexedDB のデータ取得・処理
+                const scoreData = await getAllData("dailyFlashCardScores", material);
+                const finalData = processScoreData(scoreData);
+                
+
+                // 📌 データをマッピングして分類
+                const dataMap = mapData(finalData);
+                const pastMaterials = filterMaterials(materialData, dataMap, item => item.dueDate <= TODAY);
+                console.log(TODAY)
+
+                const futureMaterials = filterMaterials(materialData, dataMap, item => item.dueDate > TODAY);
+                const undefinedMaterials = materialData.filter(item => !dataMap[item.id]);
+
+                // 🎯 目標数の計算
+                const targetNum = calculateTargetValue(App.multiier * target);
+
+                // 🔢 日付順ソート
+                sortByDate(pastMaterials, dataMap);
+                sortByDate(futureMaterials, dataMap);
+
+                // 📋 コンテンツ作成
+                const content = [...pastMaterials, ...undefinedMaterials, ...futureMaterials].slice(0, targetNum);
+                
+                setData(content);
+
+                const todayAchievement = await getData("dailyFlashCardScores", key);
+                if (todayAchievement){
+                    const ids = todayAchievement.details.map(item => item.id);
+                    const totalWords = materialData
+                        .filter(item => ids.includes(item.id)) // ✅ `ids` に含まれる `id` のみ抽出
+                        .reduce((sum, item) => sum + item.words, 0); // ✅ `words` を合計
+                    setAchievements({ word: totalWords, sentence: ids.length })
+                }
+            } catch (error) {
+                console.error("データ取得エラー:", error);
+            }
+        };
+
+
+        const processScoreData = (scoreData) => {
+            
+            const filteredData = scoreData.flatMap(record => record.details)
+                .reduce((acc, item) => {
+                    if (acc[item.id]) {
+                        acc[item.id].count++;
+                        acc[item.id].level = item.level;
+                        acc[item.id].dueDate = item.dueDate;
+                    } else {
+                        acc[item.id] = { ...item, count: 1 };
+                    }
+                    return acc;
+                }, {});
+            return Object.values(filteredData);
+        };
+
+        const mapData = (finalData) => {
+            return finalData.reduce((acc, item) => {
+                acc[item.id] = { level: item.level, count: item.count, dueDate: item.dueDate };
+                return acc;
+            }, {});
+        };
+
+        const filterMaterials = (materialData, dataMap, condition) => {
+            return materialData
+                .filter(item => {
+                    return dataMap[item.id] && condition(dataMap[item.id]);
+                })
+                .map(item => ({
+                    ...item,
+                    level: dataMap[item.id]?.level || "", // ✅ `level` がない場合はデフォルト値
+                    count: dataMap[item.id]?.count || 0, // ✅ `count` がない場合はデフォルト値
+                }));
+        };
+
+        const sortByDate = (materials, dataMap) => {
+            materials.sort((a, b) => new Date(dataMap[a.id].dueDate) - new Date(dataMap[b.id].dueDate));
+        };
+
+        fetchData();
+    }, [material]);
 
     const handleSlugUpdate = (slug) => {
         setSelectedSlug(slug);
     };
 
-    useEffect(() => {
-        Promise.all([
-            fetch(`${App.getData}?userid=${userInfo.id}&days=1`).then(res => res.json()),
-            fetch(`https://yuririn.github.io/englishmaterial/${userInfo.material}.json`).then(res => res.json())
-        ])
-        .then(([result, material]) => {
-            setAchievements({ word: 0, sentence: 0, material: userInfo.material || `N/A` });
-            if (!result || !material) {
-                console.log("データが取得できませんでした");
-                return;
-            }
-            const dailyRecord = result?.dailyRecord?.find(i => i.material === userInfo.material) || null;
-            const todaysRecord = dailyRecord?.details
-                ? dailyRecord.details.split('_')[1]?.split(',').map(i => Number(i)) || []
-                : []; // ✅ `details` が存在しない場合は空配列を返す
-            
-            const sentences = todaysRecord.length || 0;
-            const words = material
-                .filter(item => todaysRecord.includes(Number(item.id))) // ID を数値型でチェック
-                .reduce((sum, item) => sum + (Number(item.words) || 0), 0); 
-
-            setAchievements(dev => ({ ...dev, word: words, sentence: sentences}));
-        })
-        .catch(() => {
-            
-        });
-    }, [userInfo]); // ✅ 初回のみ実行
-
-    //教材呼び出し
-    useEffect(() => {
-        if (isFetchedFlashcard.current) return; // ✅ すでに実行済みならスキップ
-        isFetchedFlashcard.current = true; // ✅ 初回実行時にフラグを立てる
-        
-        const target = Math.floor(userInfo.target * App.multiier);
-
-        Promise.all([
-            fetch(`https://yuririn.github.io/englishmaterial/${userInfo.material}.json`).then(res => res.json()),
-            fetch(`${App.getData}?userid=${userInfo.id}`).then(res => res.json())
-        ])
-            .then(([materialData, materialRecord]) => {
-                if (!materialData || !materialRecord) {
-                    console.log("データが取得できませんでした");
-                    return;
-                }
-
-                const config = {
-                    materialRecord,
-                    userMaterial: userInfo.material,
-                    materialData,
-                    target,
-                };
-
-                setData(processQuizData(config));
-                setLoading(false);
-
-            })
-            .catch(error => {
-                console.error("エラー発生:", error);
-            });
-    }, []); // ✅ 初回のみ実行
-
-    useEffect(() => {
-        if (!loading) return; // ✅ ローディングが完了したらカウントダウン不要
-
-        const interval = setInterval(() => {
-            setCountdown((prevCountdown) => Math.max(prevCountdown - 1, 0));
-        }, 1000);
-
-        return () => clearInterval(interval); // ✅ クリーンアップ処理
-    }, [loading]); // ✅ `loading` のみ依存
-
-    const removeCard = (id) => {
-        setData((prevData) => prevData.filter((item) => item.id !== id));
+    const handleDelete = (id) => {
+        setTimeout(() => {
+            setData(prevData => prevData.filter(item => item.id !== id)); // ✅ ID をもとに削除
+            console.log(`削除完了: ${id}`);
+        }, 500); // ✅ 0.5秒（500ミリ秒）後に削除
     };
-
-    const limit = Math.floor(userInfo.target * App.multiier)
 
     return (
         <div className="Home">
-            {loading ? (
-                    <LoadingContent countdown={countdown} />
-                ) : (
-                    <>
-                        <DailyAchievment achievements={achievements}></DailyAchievment>
-                        {achievements.word >= limit &&
-                        <p className="wrapper">You've learned more than 100 words. Let's call it for today!</p>}
+            <DailyAchievment achievements={achievements}></DailyAchievment>
+            {data.length > 0 ? (
+                <>
+                {achievements.word < target * App.multiier ? (
 
-                        {data.length > 0 ? (
-                            <>
-                                <div className="flashcards wrapper" style={{ display: achievements.word >= limit ? `none`: `grid`}}>
-                                    {data.map((item, index) => (
-                                        <FlashCard
-                                            item={item}
-                                            key={`${item.id}-${index}`}
-                                            setAchievements={setAchievements}
-                                            removeCard={removeCard}
-                                            onSlugUpdate={handleSlugUpdate}
-                                        />
-                                    ))}
-                                </div>
-                                {selectedSlug && <Hint selectedSlug={selectedSlug} setSelectedSlug={setSelectedSlug} />}
-                            </>
-                        ) : (
-                            <p>No data available. Please check your connection or try again later.</p>
-                        )}
-                    </>
-                
+                        <>
+                            {data.map((item) => <FlashCard
+                                key={item.id}
+                                item={item}
+                                onDelete={handleDelete}
+                                onSlugUpdate={handleSlugUpdate}
+                                setAchievements={setAchievements}
+                            />)}
+                            {selectedSlug && <Hint selectedSlug={selectedSlug} setSelectedSlug={setSelectedSlug} />}
+                        </>
+                    ) : (
+                            <p>Call it for today! See you tomorrow!</p>
+                    )
+                }
+                </>
+            ) : (
+                <p>No data available. Please check your connection or try again later.</p>
             )}
         </div>
     );

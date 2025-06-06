@@ -6,8 +6,14 @@
         { "name": "EXTREME", "durition": 1, "color": "red" },
         { "name": "HARD", "durition": 4, "color": "orange" },
         { "name": "MODERATE", "durition": 7, "color": "yellow" },
-        { "name": "EASY", "durition": 30, "color": "green" },
-        { "name": "DONE", "durition": 90, "color": "blue" }
+        { "name": "EASY", "durition": 14, "color": "green" },
+        { "name": "DONE", "durition": 30, "color": "blue" }
+    ],
+    "languages": [
+        {"name": "アメリカ発音", "id": "en-US"},
+        {"name": "イギリス発音", "id": "en-GB"},
+        {"name": "オーストラリア英語", "id": "en-AU"},
+        {"name": "インド英語", "id": "en-IN"}
     ]
 }
 

@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { SettingsContext } from "../App";
 
 const ReadOut = ({ question }) => {
+    const { settings, updateSettings } = useContext(SettingsContext);
     const sanitizedQuestion = question.replace(/\*/g, "");
     const [isPlaying, setIsPlaying] = useState(false); // 再生状態を管理
     const [currentRate, setCurrentRate] = useState(null); // 現在の再生速度
@@ -17,7 +19,7 @@ const ReadOut = ({ question }) => {
         // 再生中の音声を停止して新しい音声を再生
         speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(sanitizedQuestion);
-        utterance.lang = 'en-US'; // 言語設定
+        utterance.lang = settings.lang; // 言語設定
         utterance.rate = rate; // 話す速度を設定
         speechSynthesis.speak(utterance); // 音声を再生
         setIsPlaying(true); // 再生状態を更新

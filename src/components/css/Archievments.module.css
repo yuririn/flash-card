@@ -1,4 +1,4 @@
-  .archievments_centences {
+  .archievments_sentences {
     span {
       display: block;
       text-align: center;
@@ -100,6 +100,38 @@
     grid-area: header;
   }
   dd {
+    display: grid;
+    gap: 8px;
+    grid-template-rows: max-content 1fr;
+    span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+
+    }
+
+  }
+}
+.archievments_compositionTotal {
+  display: grid;
+  background: #262626;
+  padding: 8px;
+  border-radius: 4px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: max-content max-content;
+  line-height: 1.4;
+  grid-template-areas: "header header header header"
+        "col col col col";
+        gap: 8px;
+        text-align: center;
+  & > dt {
+    grid-area: header;
+  }
+  & > dd {
+    strong {
+      font-size: 1.4em;
+    }
     display: grid;
     gap: 8px;
     grid-template-rows: max-content 1fr;

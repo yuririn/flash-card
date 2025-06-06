@@ -1,106 +1,105 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styles from './../components/css/register.module.css';
 import materials from "../data/materials.json";
+import { openDB, addData, getData, deleteData } from "../utilities/indexedDBUtils";
+import { calculateTargetValue } from "../utilities/commonUtils";
+import { SettingsContext } from "../App";
+import VocabularyPlanner from "../components/VocabularyPlanner";
 
-function Admin({ strage, setStrage }) {
-    const { id, username, target, material } = strage; // strageから直接取得
+import App from "../data/app.json";
+import Material from "../data/materials.json";
+
+const Admin = (props) => {
+    const { settings, updateSettings } = useContext(SettingsContext);
     const [change, setChange] = useState(false);
-
-    // ターゲット変更処理
-    const handleChangeTarget = (e) => {
-        const newTarget = e.target.value; // 入力値を取得
-        setStrage((prev) => ({
-            ...prev,
-            target: newTarget, // strage.targetを更新
-        }));
-    };
-
-    // 教材変更処理
-    const handleChangeMaterial = (e) => {
-        const newMaterial = e.target.value; // 入力値を取得
-        setStrage((prev) => ({
-            ...prev,
-            material: newMaterial, // strage.materialを更新
-        }));
-    };
-
-    // 現在の教材を取得
-    const currentMaterial = materials.find(item => item.id === material);
-
-    // 設定保存処理
-    const handleSubmit = async (e) => {
-        e.preventDefault(); // デフォルトのフォーム送信を無効化
-
-        if (change) {
-            try {
-                const response = await fetch(
-                    "https://script.google.com/macros/s/AKfycbzEKfoFrmVrVzOUJLkXkRnNaZmZ-PbRyfdXCMSCyCeVpI9xUQxfGolHbOfVF7wPM4cY/exec",
-                    {
-                        method: "POST",
-                        body: JSON.stringify({ id, target, material }) // strageから直接送信
-                    }
-                );
-
-                if (response.ok) {
-                    const result = await response.json();
-                    if (result.status === "success") {
-                        const updatedInfo = {
-                            ...JSON.parse(localStorage.getItem("userInfo")),
-                            target,
-                            material
-                        };
-
-                        // 親コンポーネントを更新
-                        setStrage(updatedInfo);
-
-                        // ローカルストレージを更新
-                        localStorage.setItem("userInfo", JSON.stringify(updatedInfo));
-
-                        // 編集モード終了
-                        setChange(false);
-                    }
-                    console.log("Update successful:", result);
-                }
-            } catch (error) {
-                console.error("Fetch error:", error);
-            }
-        } else {
-            setChange(true); // 編集モード開始
-        }
-    };
+    const [rate, setRate] = useState(.35);
+    
     const required = { basic: "基礎文法", middle: "基本文法", high: "難解な文法", expressions: "レベル不問の文法"}
 
+    useEffect(()=>{
+        const getCurrentMaterial = Material.find(i => i.id === settings.material);
+        setRate(getCurrentMaterial?.rate|| .35)
+        // setRate();
+    },[settings])
+
+    const handleChangeTarget = (e) => {
+        const newValue = Number(e.target.value);
+        updateSettings(prev => ({ ...prev, target: newValue }));
+    };
+    const handleYourNickName = (e) => {
+        const newValue = e.target.value;
+        updateSettings(prev => ({ ...prev, user: newValue }))
+    }
+    const handleLang = (e) => {
+        updateSettings(prev => ({ ...prev, lang: e.target.value }))
+    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!change) {
+            setChange(true); // 編集モード開始
+            return;
+        }
+
+        const updatedData = { id: 1, target: settings.target, material: settings.material, lang: settings.lang || `en-US`, user: settings.user };
+
+        await addData("settings", updatedData);
+        console.log("データが更新されました:", updatedData); // ログでデータの確認
+
+        setChange(false); // 編集モード終了
+    };
+    const currentMaterial = materials.find(i => i.id === settings.material) || null;
 
     return (
         <div className="wrapper">
             <h1>設定</h1>
             <div className={styles.form}>
                 <dl>
-                    <dt>ユーザー名</dt>
-                    <dd>{username}</dd>
+                    <dt>ユーザーID</dt>
+                    <dd>
+                        {
+                            change ?
+                                (
+                                    <input type="text" value={settings.user} onInput={handleYourNickName} />
+
+                                ) : (
+                                    <>{settings.user}</>
+                                )
+                        }
+                        </dd>
+                    <dt>言語設定</dt>
+                    <dd>
+                        {
+                            change ?
+                            (
+                            <select name="" id="" onChange={handleLang}>
+                                {
+                                    App.languages.map(i => (<option value={i.id} selected={i.id === settings.lang}>{i.name}</option>))
+                                }
+                               
+                            </select>
+
+                            ): (
+                                    <>{App.languages?.find(i => i.id === settings.lang)?.name}</>
+                            )
+                        }
+                    </dd>
                     <dt>目標</dt>
                     <dd>
                         <ul>
-                            <li>
-                                1日の単語数: {
-                                    change ?
-                                        (
-                                            <input
-                                                type="number"
-                                                min={0}
-                                                max={300}
-                                                step={5}
-                                                value={target} // strage.targetを直接使用
-                                                onChange={handleChangeTarget}
-                                            />
-                                        ) : (
-                                            <span>{target? target: 0}</span>
-                                        )
-                                }
-                            </li>
-                            <li>センテンス: {Math.round((target ? target : 0) * 0.35 / 10) * 10}</li>
+                            <li>1日の単語数： {
+                                change ? (<input
+                                    type="number"
+                                    min={0}
+                                    max={300}
+                                    step={5}
+                                    value={settings.target}
+                                    onChange={handleChangeTarget}
+                                />): (settings.target)}</li>
+                            <li>センテンス: {calculateTargetValue(settings.target, rate)}</li>
                         </ul>
                     </dd>
+                    
                     <dt>使用する教材</dt>
                     <dd>
                         {
@@ -109,25 +108,24 @@ function Admin({ strage, setStrage }) {
                                     <ul className={styles.material}>
                                         {materials.map((item) => (
                                             <li key={item.id}>
-                                                
                                                 <input
                                                     type="radio"
                                                     value={item.id}
                                                     id={item.id}
-                                                    onChange={handleChangeMaterial}
-                                                    checked={item.id === material}
+                                                    onChange={() => updateSettings((prev)=>({...prev, material:item.id}))}
+                                                    checked={item.id === settings.material}
                                                 />
                                                 <label htmlFor={item.id}>
                                                     <section className="section">
-                                                    <h3>{item.name}</h3>
-                                                    <p>{item.description}</p>
+                                                        <h3>{item.name}</h3>
+                                                        <p>{item.description}</p>
                                                         <div>求められる文法知識
-                                                        <ul>
-                                                            {item.required
-                                                                .filter(key => required.hasOwnProperty(key)) 
-                                                                .map(key => <li key={key}>{required[key]}</li>)}
-                                                        </ul>
-                                                    </div>
+                                                            <ul>
+                                                                {item.required
+                                                                    .filter(key => required.hasOwnProperty(key))
+                                                                    .map(key => <li key={key}>{required[key]}</li>)}
+                                                            </ul>
+                                                        </div>
                                                     </section>
                                                 </label>
                                             </li>
@@ -135,17 +133,17 @@ function Admin({ strage, setStrage }) {
                                     </ul>
                                 ) : (
                                     <>
-                                        {material === null || !material? (
+                                        {settings.material === null || !settings.material ? (
                                             <>まだ教材を選んでいません。</>
                                         ) : (
                                             <section className="section">
-                                                <h3>{currentMaterial?.name}</h3>
-                                                <p>{currentMaterial?.description}</p>
+                                                    <h3>{currentMaterial.name}</h3>
+                                                    <p>{currentMaterial.description}</p>
                                                 <div>求められる文法知識<ul>
-                                                        {currentMaterial?.required
-                                                        .filter(key => required.hasOwnProperty(key))
-                                                        .map(key => <li key={key}>{required[key]}</li>)}
-                                                    </ul></div>
+                                                        {currentMaterial.required
+                                                    .filter(key => required.hasOwnProperty(key))
+                                                    .map(key => <li key={key}>{required[key]}</li>)}
+                                                </ul></div>
                                             </section>
                                         )}
                                     </>
@@ -164,7 +162,8 @@ function Admin({ strage, setStrage }) {
                     )
                 }
             </div>
-        </div>
+            <VocabularyPlanner></VocabularyPlanner>
+          </div>
     );
 }
 

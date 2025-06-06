@@ -1,11 +1,18 @@
+import React, { useContext } from "react";
+import { SettingsContext } from "../App";
+import { calculateTargetValue } from "../utilities/commonUtils";
+import Material from "../data/materials.json";
+
 const DailyAchievment = ({ achievements })=>{
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-    const target = parseInt(userInfo.target)
-    const centence = Math.round((target ? target : 0) * 0.35 / 10) * 10 
+    console.log(achievements)
+    const { settings, updateSettings } = useContext(SettingsContext);
+    const target = settings.target;
+    const currentMaterial = Material?.find(i => i.id === settings.material)
+    const sentence = calculateTargetValue(target, currentMaterial?.rate)
     return (
         <dl className="achievements">
-            <dt>{achievements.material}</dt>
-            <dd>SENTENCES: <strong className={achievements.sentence >= centence && `done`}>{achievements.sentence}</strong><small>/{centence}</small></dd>
+            <dt>{currentMaterial?.name}</dt>
+            <dd>SENTENCES: <strong className={achievements.sentence >= sentence && `done`}>{achievements.sentence}</strong><small>/{sentence}</small></dd>
             <dd>WORDS: <strong className={achievements.word >= target && `done`}>{achievements.word}</strong><small>/{target}</small></dd>
         </dl>
     )

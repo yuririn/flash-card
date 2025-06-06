@@ -1,18 +1,20 @@
 [
     {
-        "id": "toeic10000",
-        "name": "TOEIC 10000",
-        "description": "1万語を覚えるための教材。",
-        "required": ["basic", "middle", "high","expressions"]
-    },
-    {
         "id": "student",
         "name": "Daily vocabulary for Students",
         "description": "中学〜高校生が試験などで出題される、単語5000を覚えるための教材です。",
+        "rate": 3.56,
         "required": [
             "basic",
             "middle",
             "high"
         ]
+    },
+    {
+        "id": "toeic10000",
+        "name": "TOEIC 10000",
+        "description": "1万語を覚えるための教材。",
+        "rate": 4.37,
+        "required": ["basic", "middle", "high","expressions"]
     }
 ]
