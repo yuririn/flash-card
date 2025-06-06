@@ -18,6 +18,22 @@ const InstantComposition = () => {
     const [latestDailyScore, setLatestDailyScore] = useState(null);
     const [allData, setAllData] = useState([])
     const [currentLevel, setCurrentLevel] = useState('Beginner')
+    const [selectedVoice, setSelectedVoice] = useState(null)
+
+    useEffect(() => {
+        const updateVoices = () => {
+            const voices = speechSynthesis.getVoices();
+            const voicesForLang = voices.filter(v => v.lang === settings.lang);
+            setSelectedVoice(voicesForLang.length > 0 ? voicesForLang[voicesForLang.length - 1] : voices[0]); // 確保できなかった場合、最初の音声を使う
+        };
+
+        speechSynthesis.onvoiceschanged = updateVoices;
+        updateVoices(); // 初回ロード時にも取得
+
+        return () => {
+            speechSynthesis.onvoiceschanged = null;
+        };
+    }, [selectedVoice, setSelectedVoice]);
 
     const levels = [{
         sec: 7, level: 'Beginner' },
@@ -186,11 +202,9 @@ const InstantComposition = () => {
         console.log(text)
         try {
             speechSynthesis.cancel(); // 現在の音声再生を停止
-            const voices = speechSynthesis.getVoices();
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = settings.lang; // 言語設定
-            const voicesForLang = voices.filter(v => v.lang === settings.lang);
-            utterance.voice = voicesForLang.length > 0 ? voicesForLang[voicesForLang.length - 1] : voices[voices.length - 1];
+            utterance.voice = selectedVoice
             utterance.rate = .7; // 再生速度の設定
             speechSynthesis.speak(utterance); // 再生開始
         } catch (error) {

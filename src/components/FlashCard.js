@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import styles from './css/Flashcard.module.css';
 import ReadOut from './ReadOut';
 import { marked } from "marked";
@@ -19,24 +19,35 @@ const FlashCard = (props) => {
     const [currentButton, setCurrentButton] = useState(null);
     const [displayContent, setDisplayContent] = useState(null);
     const [highlightedKeyword, setHighlightedKeyword] = useState(null);
-
-    const voices = speechSynthesis.getVoices();
-    console.log(voices.length)
+    const [selectedVoice, setSelectedVoice] = useState(null);
 
     const hints = processKeywordData(keyword);
-    const handleKeywordClick = (clickedKeyword) => {
 
+    useEffect(() => {
+        const updateVoices = () => {
+            const voices = speechSynthesis.getVoices();
+            const voicesForLang = voices.filter(v => v.lang === settings.lang);
+            setSelectedVoice(voicesForLang.length > 0 ? voicesForLang[voicesForLang.length - 1] : voices[0]); // 確保できなかった場合、最初の音声を使う
+        };
+
+        speechSynthesis.onvoiceschanged = updateVoices;
+        updateVoices(); // 初回ロード時にも取得
+
+        return () => {
+            speechSynthesis.onvoiceschanged = null;
+        };
+    }, [selectedVoice, setSelectedVoice]);
+    const handleKeywordClick = (clickedKeyword) => {
+        
         // 音声を再生する処理
         const handlePlayAudio = (text, rate = 0.5) => {
-
+            
             try {
                 speechSynthesis.cancel(); // 現在の音声再生を停止
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = settings.lang; // 言語設定
                 utterance.rate = rate; // 再生速度の設定
-                const voicesForLang = voices.filter(v => v.lang === settings.lang);
-                utterance.voice = voicesForLang.length > 0 ? voicesForLang[voicesForLang.length - 1] : voices[voices.length - 1];
-                
+                utterance.voice = selectedVoice;
                 speechSynthesis.speak(utterance); // 再生開始
             } catch (error) {
                 console.error("Error while playing audio:", error); 
@@ -44,7 +55,7 @@ const FlashCard = (props) => {
         };
 
         // キーワードを再生
-        handlePlayAudio(clickedKeyword, .5);
+        handlePlayAudio(clickedKeyword, .7);
 
         if (highlightedKeyword === clickedKeyword) {
             setDisplayContent(null);
@@ -88,7 +99,7 @@ const FlashCard = (props) => {
                         highlightedKeyword={highlightedKeyword}
                     />
                     <ul className={styles.flashcardController}>
-                        <ReadOut question={question} />
+                        <ReadOut question={question} voice={selectedVoice}/>
                         <li>
                             <button
                                 className={currentButton === "JP" ? "jp-button current" : "jp-button"}

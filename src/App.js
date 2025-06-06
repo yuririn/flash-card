@@ -11,7 +11,7 @@ import { getData, addData } from "./utilities/indexedDBUtils";
 import Welcome from "./pages/Welcome";
 
 export const SettingsContext = createContext(null);
-// indexedDB.deleteDatabase("EnglishFlashCardDB");
+
 const AppRoutes = () => {
     // const { settings, updateSettings } = useContext(SettingsContext);
     const navigate = useNavigate();

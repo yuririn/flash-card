@@ -781,3 +781,16 @@ button:disabled {
     border-top-right-radius: 4px;
   }
 }
+.btn {
+  border: none;
+  height: 50px;
+  max-width: 300px;
+  width: 100%;
+  border-radius: 4px;
+  margin-left: auto;
+  font-weight: bold;
+  color: #fff;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}

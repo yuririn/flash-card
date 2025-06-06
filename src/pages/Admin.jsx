@@ -18,6 +18,9 @@ const Admin = (props) => {
 
     useEffect(()=>{
         const getCurrentMaterial = Material.find(i => i.id === settings.material);
+        if (settings.lang === undefined || settings.target === undefined) {
+            updateSettings(prev => ({ ...prev, lang: `en-US`, target: 50 }));
+        }
         setRate(getCurrentMaterial?.rate|| .35)
     },[settings])
 
@@ -49,6 +52,13 @@ const Admin = (props) => {
     };
     const currentMaterial = materials.find(i => i.id === settings.material) || null;
 
+    const deleteHandler = ()=>{
+        let result = window.confirm("このページを本当に削除しますか？");
+        if(result) {
+            indexedDB.deleteDatabase("EnglishFlashCardDB");
+            window.location.href = `/welcome/`;
+        }
+    }
     return (
         <div className="wrapper">
             <h1>設定</h1>
@@ -73,9 +83,10 @@ const Admin = (props) => {
                             (
                             <select name="" id="" onChange={handleLang}>
                                 {
-                                    App.languages.map(i => (<option value={i.id} selected={i.id === settings.lang}>{i.name}</option>))
+                                    App.languages.map(i => (
+                                        <option value={i.id} selected={settings.lang ? i.id === settings.lang: false}>{i.name}</option>
+                                ))
                                 }
-                               
                             </select>
 
                             ): (
@@ -162,6 +173,7 @@ const Admin = (props) => {
                 }
             </div>
             <VocabularyPlanner></VocabularyPlanner>
+            <button onClick={deleteHandler} className="btn bg-red">データを完全に削除</button>
           </div>
     );
 }
