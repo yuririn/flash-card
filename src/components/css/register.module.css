@@ -123,3 +123,9 @@ button {
   width: 100%;
 }
 }
+.form__alert {
+  padding: 16px;
+  background: #232323;
+  text-align: center;line-height: 1.4;
+  border-radius: 4px;
+}

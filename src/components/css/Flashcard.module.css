@@ -228,3 +228,44 @@
 .flashcard_hidden_done {
   background: var(--red);
 }
+.confirm {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  backdrop-filter:blur(2px);
+  div {
+    display: grid;
+    padding: 40px;
+    grid-template-areas: "header header"
+    "button button";
+    gap: 24px;
+    p {
+      grid-area: header;
+    }
+    button {
+      border: none;
+      height: 40px;
+      border-radius: 4px;
+      font-weight: bold;
+      color: #fff;
+      &:first-of-type {
+        background: var(--green);
+      }
+      &:last-of-type {
+        background: var(--gray);
+      }
+    }
+    max-width: 400px;
+    width: 100%;
+    border-radius: 16px;
+    background: var(--color);
+    box-shadow: 0 0 3px rgb(0 0 0 / .7);
+  }
+}

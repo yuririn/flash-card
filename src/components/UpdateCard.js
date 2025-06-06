@@ -11,36 +11,38 @@ const UpdateCard = (props) => {
     const { settings, updateSettings } = useContext(SettingsContext);
     const [selectedLevel, setSelectedLevel] = useState(level || "EXTREME");
     const [currentCount, setCurrentCount] = useState(count);
+    const [detail, setDetail] = useState(null)
     const levels = App.levels;
     const key = `${TODAY}_${settings.material}`;
 
-    const handleUpdate = async (lv) => {
+    const handleUpdate = (lv) => {
         speechSynthesis.cancel(); // 再生を停止
     
         const updateDate = new Date();
         updateDate.setDate(updateDate.getDate() + (levels.find(i => i.name === lv)?.durition || 1));
 
         const formattedDate = updateDate.toISOString().split("T")[0];
+            
+        const data = { id: id, level: lv, dueDate: formattedDate }
+        setDetail(data)
+            
 
-        try {
-            let data = await getData("dailyFlashCardScores", key);
-            const detail = { id: id, level: lv, dueDate: formattedDate }
-            if (!data) {
-                // ✅ データが存在しない場合、新規作成
-                data = { uniqueKey: key, date: TODAY, material: settings.material, details: [detail] };
-                await addData("dailyFlashCardScores", data);
-            } else {
-                data = { ...data, details: [...data.details, detail]}
-                await addData("dailyFlashCardScores", data);
-            }
-            console.log(words)
-            setAchievements(prev => ({ word: prev.word + words, sentence: prev.sentence + 1}))
-            setIsHidden(true);
-            onDelete(id);
-        } catch (error) {
-            console.error("データ取得エラー:", error);
-        }
     };
+    const handleConfirm = async ()=>{
+        let data = await getData("dailyFlashCardScores", key);
+        if (!data) {
+            // ✅ データが存在しない場合、新規作成
+            data = { uniqueKey: key, date: TODAY, material: settings.material, details: [detail] };
+            await addData("dailyFlashCardScores", data);
+        } else {
+            data = { ...data, details: [...data.details, detail]}
+            await addData("dailyFlashCardScores", data);
+        }
+        setAchievements(prev => ({ word: prev.word + words, sentence: prev.sentence + 1}))
+        setIsHidden(true);
+        onDelete(id);
+        setDetail(false);
+    }
 
     return (
         <div>
@@ -65,7 +67,19 @@ const UpdateCard = (props) => {
                             })}
                     </ul>
                 </dd>
-            </dl>            
+            </dl>
+            {
+                detail && (
+                    <div className={styles.confirm}>
+                        <div>
+                            <p>ID {id} の次回表示日時を {detail.dueDate} で確定します。</p>
+                            <button onClick={handleConfirm}>YES</button>
+                            <button onClick={()=>setDetail(false)}>NO</button>
+                        </div>
+                    </div>
+
+                )
+            }
         </div>
     );
 };

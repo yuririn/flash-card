@@ -204,7 +204,7 @@ const Home = () => {
                             {selectedSlug && <Hint selectedSlug={selectedSlug} setSelectedSlug={setSelectedSlug} />}
                         </>
                     ) : (
-                            <p>Call it for today! See you tomorrow!</p>
+                        <p>Let's call it for today!! See you tomorrow ☕</p>
                     )
                 }
                 </>

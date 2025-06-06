@@ -19,7 +19,6 @@ const Admin = (props) => {
     useEffect(()=>{
         const getCurrentMaterial = Material.find(i => i.id === settings.material);
         setRate(getCurrentMaterial?.rate|| .35)
-        // setRate();
     },[settings])
 
     const handleChangeTarget = (e) => {
@@ -41,7 +40,7 @@ const Admin = (props) => {
             return;
         }
 
-        const updatedData = { id: 1, target: settings.target, material: settings.material, lang: settings.lang || `en-US`, user: settings.user };
+        const updatedData = { ...settings, target: settings.target, material: settings.material, lang: settings.lang || `en-US`, user: settings.user };
 
         await addData("settings", updatedData);
         console.log("データが更新されました:", updatedData); // ログでデータの確認

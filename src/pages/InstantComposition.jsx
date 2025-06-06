@@ -202,41 +202,82 @@ const InstantComposition = () => {
                     {isShow && (<dl>
                     <dt>Score: {currentLevel}</dt>
                     <dd>{score} / {count} Total: {data.length}</dd>
-                   </dl>)}
-
+                    </dl>)}
+                    
                     {isShow && (
-                        <div className={styles.wrapper}>
-                            
+                        <>{data.length > count ? (<div className={styles.wrapper}>
+
                             <p className={styles.controll}>
                                 {countDown > 0 ? (
                                     <button onClick={toggleCountDown} style={{ backgroundColor: `var(--red)` }} disabled={countDown <= 1 && true}>
                                         STOP
                                     </button>
 
-                                ):(
-                                    <button onClick={toggleCountDown} style={{ backgroundColor: `var(--green)`}}>
+                                ) : (
+                                    <button onClick={toggleCountDown} style={{ backgroundColor: `var(--green)` }}>
                                         START
                                     </button>
 
                                 )}
                             </p>
                             {isStarted && (<ul>
-                                
+
                                 <li>ID:{data[count - 1]?.id} </li>
-                                <li>🏆️: {data[count - 1]?.totalAttempts ? `${(data[count - 1]?.successfulAttempts !== 0 ? (data[count - 1]?.successfulAttempts / data[count - 1]?.totalAttempts * 100).toFixed(0) : 0 )}%` : 'NOT YET'}</li>
+                                <li>🏆️: {data[count - 1]?.totalAttempts ? `${(data[count - 1]?.successfulAttempts !== 0 ? (data[count - 1]?.successfulAttempts / data[count - 1]?.totalAttempts * 100).toFixed(0) : 0)}%` : 'NOT YET'}</li>
                             </ul>)}
 
                             {isStarted && (
                                 <>
                                     <p className={styles.countDown}>{countDown}</p>
-                                    <p>{data[count-1]?.question}</p>
+                                    <p>{data[count - 1]?.question}</p>
                                     {countDown === 0 && (
-                                        <p className={styles.answer} onClick={() => play(data[count-1]?.answer)}>🔉 {data[count-1]?.answer}</p>
-                                        )}
+                                        <p className={styles.answer} onClick={() => play(data[count - 1]?.answer)}>🔉 {data[count - 1]?.answer}</p>
+                                    )}
                                 </>
                             )}
-                        </div>
+                        </div>) : (<div className={styles.wrapper}><h2>DONE</h2></div>)}
+                        </>
                     )}
+                    {/* {data.length > count ? (
+                        <>
+                        { isShow && (
+                            <div className={styles.wrapper}>
+
+                                <p className={styles.controll}>
+                                    {countDown > 0 ? (
+                                        <button onClick={toggleCountDown} style={{ backgroundColor: `var(--red)` }} disabled={countDown <= 1 && true}>
+                                            STOP
+                                        </button>
+
+                                    ) : (
+                                        <button onClick={toggleCountDown} style={{ backgroundColor: `var(--green)` }}>
+                                            START
+                                        </button>
+
+                                    )}
+                                </p>
+                                {isStarted && (<ul>
+
+                                    <li>ID:{data[count - 1]?.id} </li>
+                                    <li>🏆️: {data[count - 1]?.totalAttempts ? `${(data[count - 1]?.successfulAttempts !== 0 ? (data[count - 1]?.successfulAttempts / data[count - 1]?.totalAttempts * 100).toFixed(0) : 0)}%` : 'NOT YET'}</li>
+                                </ul>)}
+
+                                {isStarted && (
+                                    <>
+                                        <p className={styles.countDown}>{countDown}</p>
+                                        <p>{data[count - 1]?.question}</p>
+                                        {countDown === 0 && (
+                                            <p className={styles.answer} onClick={() => play(data[count - 1]?.answer)}>🔉 {data[count - 1]?.answer}</p>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+                        )}
+                        </>
+
+                    ) : (<p>DONE</p>)} */}
+
+                    
                     <ul className={styles.nav}>
                         {levels.map(({ sec, level }) => (
                             <li key={level}>
