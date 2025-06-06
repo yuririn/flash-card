@@ -23,11 +23,11 @@ const Welcome = () => {
     }
     useEffect(() => {
         const fetchData = async () => {
-            if (settings === null) return;
-            if (settings.passCode !== null && location.pathname === "/welcome/") {
-                navigate('/admin/')
-            }
+        if (settings === null) return;
+        if (settings.passCode !== null && location.pathname === "/welcome/") {
+            navigate('/admin/')
         }
+    }
     fetchData()
     }, [settings])
     const sendPasscode = async (e)=>{
