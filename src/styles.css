@@ -749,3 +749,35 @@ button:disabled {
     }
   }
 }
+
+.archievments_nav {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  color: #fff;
+  gap: 3px;
+  margin-bottom: 0;
+  li {
+    margin-bottom: 0;
+  }
+  a {
+    text-decoration: none;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    color: #fff;
+    background: var(--color);
+  }
+  .active {
+    background: var(--blue);
+  }
+  li:first-child a{
+    border-top-left-radius: 4px;
+  }
+  li:last-child a{
+    border-top-right-radius: 4px;
+  }
+}

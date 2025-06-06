@@ -3,17 +3,18 @@ import styles from "../components/css/Archievments.module.css";
 import { useParams } from 'react-router-dom';
 import TotalAchievement from "../components/TotalAchievement";
 import DailyAchievement from "../components/DailyAchievement";
-import { BrowserRouter as Link} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 const Achievements = () => {
     const { slug } = useParams();
+    const location = useLocation();
 
 
     if (slug === 'composition' || slug === undefined) {
         return (
             <div className={`${styles.archievments} wrapper`}>
-                <ul>
-                    <li><Link to="/achievements/">フラッシュカード</Link></li>
-                    <li><Link to="/achievements/composition/">瞬間英作文</Link></li>
+                <ul className='archievments_nav'>
+                    <li><Link to="/achievements/" className={location.pathname === '/achievements/' && `active`}>フラッシュカード</Link></li>
+                    <li><Link to="/achievements/composition/" className={location.pathname !== '/achievements/' && `active`}>瞬間英作文</Link></li>
                 </ul>
                 <TotalAchievement slug={slug} />
                 <DailyAchievement slug={slug} />

@@ -21,6 +21,9 @@ const ReadOut = ({ question }) => {
         const utterance = new SpeechSynthesisUtterance(sanitizedQuestion);
         utterance.lang = settings.lang; // 言語設定
         utterance.rate = rate; // 話す速度を設定
+        const voices = speechSynthesis.getVoices();
+        const voicesForLang = voices.filter(v => v.lang === settings.lang);
+        utterance.voice = voicesForLang.length > 0 ? voicesForLang[voicesForLang.length - 1] : voices[voices.length - 1];
         speechSynthesis.speak(utterance); // 音声を再生
         setIsPlaying(true); // 再生状態を更新
         setCurrentRate(rate); // 現在の再生速度を更新

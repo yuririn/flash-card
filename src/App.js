@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext } from "react";
+import { useState, useEffect, createContext } from "react";
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Grammar from "./pages/Grammar";
@@ -6,13 +6,14 @@ import Admin from "./pages/Admin";
 import Achievements from "./pages/Achievements";
 import InstantComposition from "./pages/InstantComposition";
 import './styles.css';
-import { getData, addData, deleteData } from "./utilities/indexedDBUtils";
+// import { getData, addData, deleteData } from "./utilities/indexedDBUtils";
+import { getData, addData } from "./utilities/indexedDBUtils";
 import Welcome from "./pages/Welcome";
 
 export const SettingsContext = createContext(null);
-
+// indexedDB.deleteDatabase("EnglishFlashCardDB");
 const AppRoutes = () => {
-    const { settings, updateSettings } = useContext(SettingsContext);
+    // const { settings, updateSettings } = useContext(SettingsContext);
     const navigate = useNavigate();
     const location = useLocation();
     
@@ -25,7 +26,7 @@ const AppRoutes = () => {
             }
         }
         fetchData();
-    }, []);
+    }, [location.pathname, navigate]);
     return (
         <Routes>
             <Route path="/" element={<Home />} />

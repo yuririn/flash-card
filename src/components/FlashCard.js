@@ -20,6 +20,9 @@ const FlashCard = (props) => {
     const [displayContent, setDisplayContent] = useState(null);
     const [highlightedKeyword, setHighlightedKeyword] = useState(null);
 
+    const voices = speechSynthesis.getVoices();
+    console.log(voices.length)
+
     const hints = processKeywordData(keyword);
     const handleKeywordClick = (clickedKeyword) => {
 
@@ -31,14 +34,17 @@ const FlashCard = (props) => {
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = settings.lang; // 言語設定
                 utterance.rate = rate; // 再生速度の設定
+                const voicesForLang = voices.filter(v => v.lang === settings.lang);
+                utterance.voice = voicesForLang.length > 0 ? voicesForLang[voicesForLang.length - 1] : voices[voices.length - 1];
+                
                 speechSynthesis.speak(utterance); // 再生開始
             } catch (error) {
-                console.error("Error while playing audio:", error); // エラー時のログ
+                console.error("Error while playing audio:", error); 
             }
         };
 
         // キーワードを再生
-        handlePlayAudio(clickedKeyword, 0.5);
+        handlePlayAudio(clickedKeyword, .5);
 
         if (highlightedKeyword === clickedKeyword) {
             setDisplayContent(null);
@@ -71,6 +77,7 @@ const FlashCard = (props) => {
         }
     };
 
+    
     return (
         <section className={`${styles.flashcard}${isHidden ? " hide" : ''}`}>
             <div ref={nodeRef}>

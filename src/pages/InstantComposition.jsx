@@ -133,7 +133,7 @@ const InstantComposition = () => {
         // ✅ `sec` に一致するレベルを取得
         const levelObj = levels.find(item => item.level === level) || levels[levels.length - 1];
 
-        if (latestDailyScore.date === TODAY && latestDailyScore[level]) {
+        if (latestDailyScore?.date === TODAY && latestDailyScore[level]) {
             setCount(latestDailyScore[level]?.totalAttempts||0);
             setScore(latestDailyScore[level]?.successfulAttempts || 0);
         } else {
@@ -165,7 +165,7 @@ const InstantComposition = () => {
             return item;
         });
 
-        const targetId = latestDailyScore[levelObj.level]?.id;
+        const targetId = latestDailyScore && latestDailyScore[levelObj.level]?.id ;
 
         if (targetId){
             const index = updatedData.findIndex(item => item.id === targetId);
@@ -186,8 +186,11 @@ const InstantComposition = () => {
         console.log(text)
         try {
             speechSynthesis.cancel(); // 現在の音声再生を停止
+            const voices = speechSynthesis.getVoices();
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = settings.lang; // 言語設定
+            const voicesForLang = voices.filter(v => v.lang === settings.lang);
+            utterance.voice = voicesForLang.length > 0 ? voicesForLang[voicesForLang.length - 1] : voices[voices.length - 1];
             utterance.rate = .7; // 再生速度の設定
             speechSynthesis.speak(utterance); // 再生開始
         } catch (error) {
@@ -206,7 +209,6 @@ const InstantComposition = () => {
                     
                     {isShow && (
                         <>{data.length > count ? (<div className={styles.wrapper}>
-
                             <p className={styles.controll}>
                                 {countDown > 0 ? (
                                     <button onClick={toggleCountDown} style={{ backgroundColor: `var(--red)` }} disabled={countDown <= 1 && true}>
@@ -238,50 +240,12 @@ const InstantComposition = () => {
                         </div>) : (<div className={styles.wrapper}><h2>DONE</h2></div>)}
                         </>
                     )}
-                    {/* {data.length > count ? (
-                        <>
-                        { isShow && (
-                            <div className={styles.wrapper}>
-
-                                <p className={styles.controll}>
-                                    {countDown > 0 ? (
-                                        <button onClick={toggleCountDown} style={{ backgroundColor: `var(--red)` }} disabled={countDown <= 1 && true}>
-                                            STOP
-                                        </button>
-
-                                    ) : (
-                                        <button onClick={toggleCountDown} style={{ backgroundColor: `var(--green)` }}>
-                                            START
-                                        </button>
-
-                                    )}
-                                </p>
-                                {isStarted && (<ul>
-
-                                    <li>ID:{data[count - 1]?.id} </li>
-                                    <li>🏆️: {data[count - 1]?.totalAttempts ? `${(data[count - 1]?.successfulAttempts !== 0 ? (data[count - 1]?.successfulAttempts / data[count - 1]?.totalAttempts * 100).toFixed(0) : 0)}%` : 'NOT YET'}</li>
-                                </ul>)}
-
-                                {isStarted && (
-                                    <>
-                                        <p className={styles.countDown}>{countDown}</p>
-                                        <p>{data[count - 1]?.question}</p>
-                                        {countDown === 0 && (
-                                            <p className={styles.answer} onClick={() => play(data[count - 1]?.answer)}>🔉 {data[count - 1]?.answer}</p>
-                                        )}
-                                    </>
-                                )}
-                            </div>
-                        )}
-                        </>
-
-                    ) : (<p>DONE</p>)} */}
 
                     
                     <ul className={styles.nav}>
                         {levels.map(({ sec, level }) => (
                             <li key={level}>
-                                <button onClick={() => levelHandler(level)} className={level === currentLevel || `current`}>{sec} SEC ({level})</button>
+                                <button onClick={() => levelHandler(level)} className={level === currentLevel || `current`}>{sec} SEC</button>
                             </li>
                         ))}
                     </ul>

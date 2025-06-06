@@ -7,7 +7,7 @@ import Hint from "../components/Hint";
 import { SettingsContext } from "../App";
 import DailyAchievment from "../components/DailyAchievment";
 
-// indexedDB.deleteDatabase("EnglishFlashCardDB");
+
 const Home = () => {
     
     const { settings, updateSettings } = useContext(SettingsContext);
@@ -204,12 +204,12 @@ const Home = () => {
                             {selectedSlug && <Hint selectedSlug={selectedSlug} setSelectedSlug={setSelectedSlug} />}
                         </>
                     ) : (
-                        <p>Let's call it for today!! See you tomorrow ☕</p>
+                            <div className="wrapper"><p>Let's call it for today!! See you tomorrow ☕</p></div>
                     )
                 }
                 </>
             ) : (
-                <p>No data available. Please check your connection or try again later.</p>
+                    <div className="wrapper"> <p>No data available. Please check your connection or try again later.</p></div>
             )}
         </div>
     );
