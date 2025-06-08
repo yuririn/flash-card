@@ -77,6 +77,13 @@
         "explain": "完了形を使うと、ある時点までに動作が完了していることを表現できます。そのルールや文法について解説します。"
     },
     {
+        "name": "Comparative & Superlative",
+        "slug": "comparative-superlative",
+        "jp": "比較級・最上級",
+        "level": "middle",
+        "explain": "比較級・最上級の使い方や、単語の変化について解説します。"
+    },
+    {
         "name": "Prepositions",
         "slug": "prepositions",
         "jp": "前置詞",
