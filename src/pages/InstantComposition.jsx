@@ -35,8 +35,8 @@ const InstantComposition = () => {
         };
     }, [selectedVoice, setSelectedVoice]);
 
-    const levels = [{
-        sec: 7, level: 'Beginner' },
+    const levels = [
+        { sec: 7, level: 'Beginner' },
         { sec: 10, level: 'Moderate' },
         { sec: 13, level: 'Hard' },
         { sec: 17, level: 'Extreme' }

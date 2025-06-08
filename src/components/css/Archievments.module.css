@@ -47,6 +47,8 @@
   }
   .unsuccess {
     background: #5c5c5c;
+    width: 100%;
+    width: 100%;
     li {
       background: var(--green);
     }

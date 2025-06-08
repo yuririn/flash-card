@@ -34,10 +34,10 @@ const ReadOut = ({ question, voice }) => {
                     </button>
             </li>
             <li>
-                <button onClick={() => handlePlayAudio(0.5)} className={isPlaying && currentRate === 0.5 ? `stop-button` : `play-button`}>0.5</button>
+                <button onClick={() => handlePlayAudio(0.7)} className={isPlaying && currentRate === 0.7 ? `stop-button` : `play-button`}>0.5</button>
             </li>
             <li>
-                <button onClick={() => handlePlayAudio(0.05)} className={isPlaying && currentRate === 0.05 ? `stop-button` : `play-button`}>0.05</button>
+                <button onClick={() => handlePlayAudio(0.5)} className={isPlaying && currentRate === 0.5 ? `stop-button` : `play-button`}>0.05</button>
             </li>
         </>
     );
