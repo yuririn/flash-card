@@ -2,6 +2,7 @@ import { useState, useEffect, createContext } from "react";
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Grammar from "./pages/Grammar";
+import Pronunciation from "./pages/Pronunciation";
 import Admin from "./pages/Admin";
 import Achievements from "./pages/Achievements";
 import InstantComposition from "./pages/InstantComposition";
@@ -32,6 +33,8 @@ const AppRoutes = () => {
             <Route path="/" element={<Home />} />
             <Route path="/admin/" element={<Admin/>} />
             <Route path="/welcome/" element={<Welcome/>} />
+            <Route path="/pronunciation/" element={<Pronunciation />} />
+            <Route path="/pronunciation/:slug" element={<Pronunciation />} />
             <Route path="/composition/" element={<InstantComposition />} />
             <Route path="/achievements/" element={<Achievements />} />
             <Route path="/achievements/:slug" element={<Achievements />} />
@@ -93,6 +96,7 @@ const Nav = () => {
                 <li><Link to="/composition/">🚀</Link></li>
                 <li><Link to="/achievements/">🏆️</Link></li>
                 <li><Link to="/grammar/">📕</Link></li>
+                <li><Link to="/pronunciation/">👄</Link></li>
                 <li><Link to="/admin/">⚙️</Link></li>
             </ul>
         </nav>

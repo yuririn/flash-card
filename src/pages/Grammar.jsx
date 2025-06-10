@@ -18,7 +18,7 @@ function Grammar() {
         }
         const fetchMarkdown = async () => {
             try {
-                const filePath = require(`../content/${slug}.md`);
+                const filePath = require(`../content/grammar/${slug}.md`);
                 const response = await fetch(filePath);
                 const text = await response.text();
                 setContent(text);

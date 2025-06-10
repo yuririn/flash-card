@@ -1,0 +1,81 @@
+[
+    {
+        "name": "Short Vowels",
+        "slug": "short-vowels",
+        "jp": "短母音",
+        "genre": "母音"
+    },
+    {
+        "name": "Mid Vowels",
+        "slug": "mid-vowels",
+        "jp": "中母音",
+        "genre": "母音"
+    },
+    {
+        "name": "Long Vowels",
+        "slug": "long-vowels",
+        "jp": "長母音",
+        "genre": "母音"
+    },
+    
+    {
+        "name": "Diphthongs",
+        "slug": "diphthongs",
+        "jp": "二重母音",
+        "genre": "母音"
+    },
+    {
+        "name": "Rhotic Vowel",
+        "slug": "rhotic-vowel",
+        "jp": "r音化母音",
+        "genre": "母音"
+    },
+    {
+        "name": "Schwa",
+        "slug": "schwa",
+        "jp": "曖昧な発音",
+        "genre": "母音"
+    },
+    {
+        "name": "Plosive",
+        "slug": "plosive",
+        "jp": "閉鎖音",
+        "genre": "子音"
+    },
+    {
+        "name": "Fricative",
+        "slug": "fricative",
+        "jp": "摩擦音",
+        "genre": "子音"
+    },
+    {
+        "name": "Affricate",
+        "slug": "affricate",
+        "jp": "破擦音",
+        "genre": "子音"
+    },
+    {
+        "name": "Nasal",
+        "slug": "nasal",
+        "jp": "鼻音",
+        "genre": "子音"
+    },
+    {
+        "name": "Lateral",
+        "slug": "lateral",
+        "jp": "側音",
+        "genre": "子音"
+    },
+    {
+        "name": "Approximant",
+        "slug": "approximant",
+        "jp": "接近音",
+        "genre": "子音"
+    },
+    {
+        "name": "Glide",
+        "slug": "glide",
+        "jp": "半母音",
+        "genre": "子音"
+    }
+]
