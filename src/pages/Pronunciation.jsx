@@ -149,6 +149,9 @@ const Pronunciation = () => {
                             <li>
                                 <a href="/pronunciation/long-vowels#4">/ɔː/</a>
                             </li>
+                            <li>
+                                <a href="/pronunciation/long-vowels#5">/i/</a>
+                            </li>
                         </ul>
                     </dd>
                 </dl>
