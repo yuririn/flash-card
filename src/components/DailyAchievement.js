@@ -37,8 +37,7 @@ const DailyAchievement = ({slug})=> {
                 setTotal(filteredData)
 
                 const allDailyComposition = await getAllData("instantSentencesDailyScore");
-                console.log(allDailyComposition)
-                setTotalComposition(allDailyComposition)
+                setTotalComposition(allDailyComposition.sort((a, b) => new Date(b.date) - new Date(a.date)))
             } catch (error) {
                 console.error("Error fetching daily data:", error);
             }
