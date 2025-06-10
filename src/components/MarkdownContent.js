@@ -5,12 +5,14 @@ const MarkdownContent = ({ content, onKeywordClick, className = "main" }) => {
     const renderHtmlContent = (content) => {
         const tokens = marked.lexer(content); // マークダウン解析
         const elements = [];
+        let num = 0;
 
         tokens.forEach((token, index) => {
             let Tag = null;
 
             if (token.type === "heading") {
                 Tag = `h${token.depth}`;
+                if (token.depth === 2) num++;
             } else if (token.type === "blockquote") {
                 Tag = "blockquote";
             } else if (token.type === "paragraph") {
@@ -45,7 +47,7 @@ const MarkdownContent = ({ content, onKeywordClick, className = "main" }) => {
 
             if (Tag) {
                 elements.push(
-                    <Tag key={index}>
+                    <Tag key={index} {...(token.type === "heading" && token.depth === 2 ? { id: num } : {})}>
                         {token.tokens?.map((t, i) => {
                             if (t.type === "strong") {
                                 return (
