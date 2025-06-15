@@ -108,6 +108,7 @@ const InstantComposition = () => {
 
         await addData("instantSentencesDailyScore", newDailyScore);
     };
+    console.log(count)
 
     const updateScore = async (id, level, isSuccess) => {
         // ✅ 既存データを取得
@@ -148,6 +149,7 @@ const InstantComposition = () => {
 
         // ✅ `sec` に一致するレベルを取得
         const levelObj = levels.find(item => item.level === level) || levels[levels.length - 1];
+        
 
         if (latestDailyScore?.date === TODAY && latestDailyScore[level]) {
             setCount(latestDailyScore[level]?.totalAttempts||0);
@@ -164,8 +166,10 @@ const InstantComposition = () => {
         setCountDown(0); // ✅ カウントダウンをリセット
         setIsShow(false); // ✅ 表示状態もリセット
 
+
         // ✅ `rawData` から `level` に一致するデータを抽出
         const filteredData = rawData.filter(item => item.level === levelObj.level);
+        
         // ID に一致する要素を更新
         const updatedData = filteredData.map(item => {
             const match = allData.find(a => {
@@ -181,16 +185,25 @@ const InstantComposition = () => {
             return item;
         });
 
+
         const targetId = latestDailyScore && latestDailyScore[levelObj.level]?.id ;
+
 
         if (targetId){
             const index = updatedData.findIndex(item => item.id === targetId);
-    
-            const firstHalf =  updatedData.slice(0, index+1);
-            const secondHalf = updatedData.slice(index+1);
-    
-            setData([...secondHalf, ...firstHalf]);
+            
+            // デフォルトで末尾に設定（見つからなかった場合）
+            if (index === -1) index = updatedData.length - 1;
 
+            // ✅ スタート位置を循環処理込みで計算
+            const startIndex = (index - count + 1 + updatedData.length) % updatedData.length;
+
+            // ✅ 配列を順に並び替える（startIndex → end）
+            const reorderedData = [
+                ...updatedData.slice(startIndex),
+                ...updatedData.slice(0, startIndex),
+            ];
+            setData(reorderedData);
         }else {
             setData(updatedData);
         }
