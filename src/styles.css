@@ -351,7 +351,6 @@ template {
 :root {
   --color: #11133e;
   --blue: #072fb3;
-  --blue: #072fb3;
   --red: #d52352;
   --orange: #e24000;
   --pink: #ff8486;
@@ -443,6 +442,10 @@ nav {
   color: #fff;
   background: var(--gray);
 }
+.btn-blue {
+  color: #fff;
+  background: var(--blue);
+}
 .btn-green {
   color: #fff;
   background: var(--green);
@@ -511,6 +514,9 @@ button:hover {
     }
   }
   
+}
+.bg-blue {
+  background: var(--blue);
 }
 .bg-red {
   background: var(--red);

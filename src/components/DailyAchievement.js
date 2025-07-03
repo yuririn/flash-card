@@ -97,8 +97,8 @@ const DailyAchievement = ({slug})=> {
                                             <td className={styles.archievments_sentences}>
                                                 <span>Total: {item.details.length}</span>
                                                 <dl>
-                                                    {levels.map((level) => {
-                                                        const percentage = ((levelCounts[level.name] / (maxLevel.count || 0)) * 100).toFixed(3);
+                                                {levels.map((level) => {
+                                                    const percentage = levelCounts[level.name]? ((levelCounts[level.name] / (maxLevel.count || 0)) * 100).toFixed(3) : 0;
 
                                                         return (
                                                             <div key={level.name}>
