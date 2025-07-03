@@ -64,6 +64,7 @@ const InstantComposition = () => {
                 };
                 return acc;
             }, {});
+            console.log(groupedData)
             const data = { date: TODAY, ...groupedData }
             setLatestDailyScore(data);
         };
@@ -210,7 +211,7 @@ const InstantComposition = () => {
             rotated = filteredData;
         }
         //形成したデータを確認
-        setData(rotated);
+        setData(rotated.slice(0, latestDailyScore[currentLevel]?.target));
         setIsShow(true); // ✅ 必要なら再表示
     };
 
