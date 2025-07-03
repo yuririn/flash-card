@@ -1,25 +1,31 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styles from '../components/css/InstantComposition.module.css';
-import { getData, getAllData, addData } from "../utilities/indexedDBUtils";
+import { getData, getAllData, addData, deleteKey } from "../utilities/indexedDBUtils";
 import { TODAY } from "../utilities/commonUtils";
 import { SettingsContext } from "../App";
 
 const InstantComposition = () => {
+    const levels = [
+        { sec: 7, level: 'Beginner' },
+        { sec: 10, level: 'Moderate' },
+        { sec: 13, level: 'Hard' },
+        { sec: 17, level: 'Extreme' }
+    ];
+    
     const { settings, updateSettings } = useContext(SettingsContext);
     const [data, setData] = useState([]);
-    const [count, setCount] = useState(0);
     const [countDown, setCountDown] = useState(0);
     const [isShow, setIsShow] = useState(false);
     const [rawData, setRawData] = useState([]);
     const [selectedTime, setSelectedTime] = useState(0); // 設定した秒数
     const [isStarted, setIsStarted] = useState(false); // スタート状態管理
-    const [score, setScore] = useState(0); // スタート状態管理
-    const [success, setSuccess] = useState(false); // スタート状態管理
+    const [isFailed, setIsFailed] = useState(false); // スタート状態管理
     const [latestDailyScore, setLatestDailyScore] = useState(null);
     const [allData, setAllData] = useState([])
-    const [currentLevel, setCurrentLevel] = useState('Beginner')
+    const [currentLevel, setCurrentLevel] = useState(levels[0].level)
     const [selectedVoice, setSelectedVoice] = useState(null)
 
+    //声の設定
     useEffect(() => {
         const updateVoices = () => {
             const voices = speechSynthesis.getVoices();
@@ -35,130 +41,145 @@ const InstantComposition = () => {
         };
     }, [selectedVoice, setSelectedVoice]);
 
-    const levels = [
-        { sec: 7, level: 'Beginner' },
-        { sec: 10, level: 'Moderate' },
-        { sec: 13, level: 'Hard' },
-        { sec: 17, level: 'Extreme' }
-    ];
-
+    //レベルの取得
     useEffect(() => {
+        if (rawData.length === 0 || !settings.compositionTarget) return;
         const fetchLatestScore = async () => {
-            const latestScore = await getData("instantSentencesDailyScore"); 
-            setLatestDailyScore(latestScore);
+            const rate = settings.compositionTarget / rawData.length;
+            const latestScore = await getData("instantSentencesDailyScore");
+            const groupedData = levels.reduce((acc, currentLevel) => {
+                const level = currentLevel.level;
+                const isToday = latestScore?.date === TODAY;
+                const mergedData = {
+                    totalAttempts: isToday ? latestScore[level]?.totalAttempts: 0,
+                    successfulAttempts: isToday ? latestScore[level]?.successfulAttempts : 0,
+                    id: latestScore[level]?.id || null,
+                }
+                const items = rawData.filter(item => item.level === level);
+                acc[level] = {
+                    total: items.length,
+                    target: Math.round(items.length * rate),
+                    ...mergedData,
+                };
+                return acc;
+            }, {});
+            const data = { date: TODAY, ...groupedData }
+            setLatestDailyScore(data);
         };
 
         fetchLatestScore();
-    }, []);
+    }, [rawData, settings]);
 
+    //Materialデータの取得
     useEffect(() => {
         fetch(`https://yuririn.github.io/englishmaterial/instant-english-composition.json`)
-            .then(res => res.json())
-            .then(materialData => {
-                setRawData(materialData);
-            })
-            .catch(error => console.error("Error fetching data:", error));
+        .then(res => res.json())
+        .then(materialData => {
+            setRawData(materialData);
+        })
+        .catch(error => console.error("Error fetching data:", error));
     }, []);
 
+    //タイマー
     useEffect(() => {
         if (!isStarted || countDown === 0) return;
         const interval = setInterval(() => {
             setCountDown(prev => Math.max(prev - 1, 0));
+            if(countDown === 1) {
+                setIsFailed(true)
+            }
         }, 1000);
         return () => clearInterval(interval);
     }, [countDown, isStarted]);
 
     useEffect(() => {
         const fetchData = async () => {
-            const thisData= await getAllData("instantSentencesScore");
+            const thisData = await getAllData("instantSentencesScore");
             setAllData(thisData)
         }
         fetchData()
     }, [])
+
+    //タイムアウトの処理
     useEffect(() => {
-        if(isStarted && countDown === 0) {
-            const id = data[count - 1]?.id; 
-            const level = data[count - 1]?.level;
-            if (id && !success) {
-                updateScore(id, level, false); 
-            }
-            setSuccess(false);
+        if (data.length === 0) return;
+        if(isFailed) {
+            updateDailyScore(latestDailyScore);
+            updateScore({ id: data[latestDailyScore[currentLevel]?.totalAttempts]?.id, isSuccess: false })
+            setIsFailed(false)
         } else {
-            setSuccess(false);
             return;
         }
-    }, [countDown, isStarted]);
+    }, [countDown, isStarted, latestDailyScore, currentLevel, data, isFailed]);
 
-    const updateDailyScore = async (id, level, isSuccess) => {
-        const levelObj = levels.find(item => item.level === level);
-        if (!levelObj) return; // ✅ 該当するレベルがない場合は処理しない
-        
+    const updateDailyScore = async (data) => {
+        const levelData = levels.reduce((acc, level)=>{
+            acc[level.level] = {
+                totalAttempts: data[level.level].totalAttempts,
+                successfulAttempts: data[level.level].successfulAttempts,
+                id: data[level.level].id
+            }
+            return acc;
+        }, {})
+        const newScore = {date: TODAY, ...levelData}
+        await addData("instantSentencesDailyScore", newScore);
+    }
 
-        const existingDailyScore = await getData("instantSentencesDailyScore", TODAY) || { date: TODAY };
-
-        const levelScore = existingDailyScore[levelObj.level] || { totalAttempts: 0, successfulAttempts: 0 };
-
-        const newLevelScore = {
-            totalAttempts: levelScore.totalAttempts + 1,
-            successfulAttempts: isSuccess ? levelScore.successfulAttempts + 1 : levelScore.successfulAttempts,
-            id: id
-        };
-
-        const newDailyScore = { ...existingDailyScore, [levelObj.level]: newLevelScore };
-
-        await addData("instantSentencesDailyScore", newDailyScore);
-    };
-    console.log(count)
-
-    const updateScore = async (id, level, isSuccess) => {
+    const updateScore = async (atts) => {
+        const { id, isSuccess} = atts;
         // ✅ 既存データを取得
         const existingScore = await getData("instantSentencesScore", id);
-
-        // ✅ データが既存なら更新、なければ新規作成
         const newScore = existingScore
-        ? {
-            ...existingScore,
-            totalAttempts: existingScore.totalAttempts + 1,
-            successfulAttempts: isSuccess ? existingScore.successfulAttempts + 1 : existingScore.successfulAttempts
-        }
-        : { id, totalAttempts: 1, successfulAttempts: isSuccess ? 1 : 0 };
+            ? {
+                ...existingScore,
+                totalAttempts: existingScore.totalAttempts,
+                successfulAttempts: isSuccess ? existingScore.successfulAttempts + 1 : existingScore.successfulAttempts
+            }
+            : { id, totalAttempts: 1, successfulAttempts: isSuccess ? 1 : 0 };
 
-        updateDailyScore(id, level, isSuccess)
-        
         await addData("instantSentencesScore", newScore);
-    };
+    }
 
     const toggleCountDown = () => {
         speechSynthesis.cancel(); // 現在の音声再生を停止
+        let tempData;
+        setIsFailed(false);
         if (countDown > 0) {
-            setScore(prev => prev + 1);
-            setCountDown(0); // STOP：カウントダウンを止める
-            const id = data[count-1]?.id;
-            const level = data[count-1]?.level;
-            setSuccess(true);
-            updateScore(id,level, true);
+            //成功を追加
+
+            tempData = {
+                ...latestDailyScore,
+                [currentLevel]: {
+                ...latestDailyScore[currentLevel],
+                successfulAttempts: latestDailyScore[currentLevel]?.successfulAttempts + 1,
+                id: data[latestDailyScore[currentLevel]?.totalAttempts]?.id
+                }
+            }
+
+            setLatestDailyScore(tempData)
+            updateDailyScore(tempData);
+            updateScore({ id: data[latestDailyScore[currentLevel]?.totalAttempts]?.id, isSuccess: true})
+            setCountDown(0);
         } else {
+            //成功以外を追加
+            setLatestDailyScore(prev => ({
+                ...prev, [currentLevel]: {
+                    ...prev[currentLevel],
+                    totalAttempts: prev[currentLevel]?.totalAttempts + 1,
+                    id: data[prev[currentLevel]?.totalAttempts + 1]?.id
+                }
+            }))
             setIsStarted(true);
             setCountDown(selectedTime); // START：カウントダウン開始
-            setCount(prev => prev + 1); // 正しく次のカードへ進む
         }
+        
     };
 
     const levelHandler = (level) => {
-        speechSynthesis.cancel();
+        if (Object.keys(latestDailyScore).length === 0) return;
 
         // ✅ `sec` に一致するレベルを取得
         const levelObj = levels.find(item => item.level === level) || levels[levels.length - 1];
-        
-
-        if (latestDailyScore?.date === TODAY && latestDailyScore[level]) {
-            setCount(latestDailyScore[level]?.totalAttempts||0);
-            setScore(latestDailyScore[level]?.successfulAttempts || 0);
-        } else {
-            setCount(0);
-            setScore(0);
-
-        }
 
         setCurrentLevel(level)
         setSelectedTime(levelObj.sec);
@@ -166,53 +187,29 @@ const InstantComposition = () => {
         setCountDown(0); // ✅ カウントダウンをリセット
         setIsShow(false); // ✅ 表示状態もリセット
 
-
         // ✅ `rawData` から `level` に一致するデータを抽出
         const filteredData = rawData.filter(item => item.level === levelObj.level);
-        
-        // ID に一致する要素を更新
-        const updatedData = filteredData.map(item => {
-            const match = allData.find(a => {
-                return a.id === item.id
-            });
-            if (match) {
-                return {
-                    ...item,
-                    totalAttempts:  match.totalAttempts,
-                    successfulAttempts:  match.successfulAttempts || 0
-                };
+
+        let data = [];
+        if (filteredData.findIndex(i => i.id === latestDailyScore[level]?.id) !== -1) {
+            let index = filteredData.findIndex(i => i.id === latestDailyScore[level]?.id)
+            //まだ本日テストしていない場合
+            if (latestDailyScore[level]?.totalAttempts === 0) {
+                index = index + 1
+            } else {
+                // すでにやっている場合
+                index = index + latestDailyScore[level]?.totalAttempts
             }
-            return item;
-        });
-
-
-        const targetId = latestDailyScore && latestDailyScore[levelObj.level]?.id ;
-
-
-        if (targetId){
-            const index = updatedData.findIndex(item => item.id === targetId);
-            
-            // デフォルトで末尾に設定（見つからなかった場合）
-            if (index === -1) index = updatedData.length - 1;
-
-            // ✅ スタート位置を循環処理込みで計算
-            const startIndex = (index - count + 1 + updatedData.length) % updatedData.length;
-
-            // ✅ 配列を順に並び替える（startIndex → end）
-            const reorderedData = [
-                ...updatedData.slice(startIndex),
-                ...updatedData.slice(0, startIndex),
-            ];
-            setData(reorderedData);
-        }else {
-            setData(updatedData);
+            data = [...filteredData.slice(index, filteredData.length), ...filteredData.slice(0, index)]
+        } else {
+            data = filteredData;
         }
-
+        //形成したデータを確認
+        setData(data.slice(0, latestDailyScore[level].target));
         setIsShow(true); // ✅ 必要なら再表示
     };
 
     const play = (text)=> {
-        console.log(text)
         try {
             speechSynthesis.cancel(); // 現在の音声再生を停止
             const utterance = new SpeechSynthesisUtterance(text);
@@ -225,17 +222,26 @@ const InstantComposition = () => {
         }
     }
 
+    //データを取得
+    const getAttr = (attr) => {
+        return latestDailyScore[currentLevel][attr]
+    }
+    const achievement = (id) =>{
+        const current = allData.find(i=>i.id === id) || []
+        const achievementRate = current.id && current?.totalAttempts > 0 ? `${(current?.successfulAttempts / current?.totalAttempts * 100).toFixed(0)} %` : 'Not Yet'; 
+        return <li>🏆️: {achievementRate}</li>
+    }
+
     return (
         <div className="wrapper">
             {rawData.length > 0 ? (
                 <div className={styles.InstantComposition}>
                     {isShow && (<dl>
-                    <dt>Score: {currentLevel}</dt>
-                    <dd>{score} / {count} Total: {data.length}</dd>
+                        <dd>{getAttr(`successfulAttempts`)} / {getAttr(`totalAttempts`)} Target: {data.length}</dd>
                     </dl>)}
                     
                     {isShow && (
-                        <>{data.length > count ? (<div className={styles.wrapper}>
+                        <>{data.length > getAttr(`successfulAttempts`) ? (<div className={styles.wrapper}>
                             <p className={styles.controll}>
                                 {countDown > 0 ? (
                                     <button onClick={toggleCountDown} style={{ backgroundColor: `var(--red)` }} disabled={countDown <= 1 && true}>
@@ -250,17 +256,16 @@ const InstantComposition = () => {
                                 )}
                             </p>
                             {isStarted && (<ul>
-
-                                <li>ID:{data[count - 1]?.id} </li>
-                                <li>🏆️: {data[count - 1]?.totalAttempts ? `${(data[count - 1]?.successfulAttempts !== 0 ? (data[count - 1]?.successfulAttempts / data[count - 1]?.totalAttempts * 100).toFixed(0) : 0)}%` : 'NOT YET'}</li>
+                                <li>ID:{data[ getAttr(`totalAttempts`) ]?.id} </li>
+                                {achievement(data[getAttr(`totalAttempts`)]?.id)}
                             </ul>)}
 
                             {isStarted && (
                                 <>
                                     <p className={styles.countDown}>{countDown}</p>
-                                    <p>{data[count - 1]?.question}</p>
+                                    <p>{data[getAttr(`totalAttempts`) ]?.question}</p>
                                     {countDown === 0 && (
-                                        <p className={styles.answer} onClick={() => play(data[count - 1]?.answer)}>🔉 {data[count - 1]?.answer}</p>
+                                        <p className={styles.answer} onClick={() => play(data[getAttr(`totalAttempts`) ]?.answer)}>🔉 {data[getAttr(`totalAttempts`) ]?.answer}</p>
                                     )}
                                 </>
                             )}

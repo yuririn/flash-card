@@ -19,7 +19,7 @@ const Admin = (props) => {
     useEffect(()=>{
         const getCurrentMaterial = Material.find(i => i.id === settings.material);
         if (settings.lang === undefined || settings.target === undefined) {
-            updateSettings(prev => ({ ...prev, lang: `en-US`, target: 50 }));
+            updateSettings(prev => ({ ...prev, lang: `en-US`, target: 50, compositionTarget: 100 }));
         }
         setRate(getCurrentMaterial?.rate|| .35)
     },[settings])
@@ -35,6 +35,10 @@ const Admin = (props) => {
     const handleLang = (e) => {
         updateSettings(prev => ({ ...prev, lang: e.target.value }))
     }
+    const handleCompositionTarget = (e) => {
+        const newValue = Number(e.target.value);
+        updateSettings(prev => ({ ...prev, compositionTarget: newValue }))
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -43,7 +47,7 @@ const Admin = (props) => {
             return;
         }
 
-        const updatedData = { ...settings, target: settings.target, material: settings.material, lang: settings.lang || `en-US`, user: settings.user };
+        const updatedData = { ...settings, target: settings.target, material: settings.material, lang: settings.lang || `en-US`, user: settings.user, compositionTarget: settings.compositionTarget };
 
         await addData("settings", updatedData);
         console.log("データが更新されました:", updatedData); // ログでデータの確認
@@ -64,7 +68,7 @@ const Admin = (props) => {
             <h1>設定</h1>
             <div className={styles.form}>
                 <dl>
-                    <dt>ユーザーID</dt>
+                    <dt>ユーザー名</dt>
                     <dd>
                         {
                             change ?
@@ -94,9 +98,58 @@ const Admin = (props) => {
                             )
                         }
                     </dd>
-                    <dt>目標</dt>
+                    <dt>フラッシュカード</dt>
                     <dd>
                         <ul>
+                            <li>教材：<br/>
+                                {
+                                    change ?
+                                        (
+                                            <ul className={styles.material}>
+                                                {materials.map((item) => (
+                                                    <li key={item.id}>
+                                                        <input
+                                                            type="radio"
+                                                            value={item.id}
+                                                            id={item.id}
+                                                            onChange={() => updateSettings((prev) => ({ ...prev, material: item.id }))}
+                                                            checked={item.id === settings.material}
+                                                        />
+                                                        <label htmlFor={item.id}>
+                                                            <section className="section">
+                                                                <h3>{item.name}</h3>
+                                                                <p>{item.description}</p>
+                                                                <div>求められる文法知識
+                                                                    <ul>
+                                                                        {item.required
+                                                                            .filter(key => required.hasOwnProperty(key))
+                                                                            .map(key => <li key={key}>{required[key]}</li>)}
+                                                                    </ul>
+                                                                </div>
+                                                            </section>
+                                                        </label>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        ) : (
+                                            <>
+                                                {settings.material === null || !settings.material ? (
+                                                    <>まだ教材を選んでいません。</>
+                                                ) : (
+                                                    <section className="section">
+                                                        <h3>{currentMaterial.name}</h3>
+                                                        <p>{currentMaterial.description}</p>
+                                                        <div>求められる文法知識<ul>
+                                                            {currentMaterial.required
+                                                                .filter(key => required.hasOwnProperty(key))
+                                                                .map(key => <li key={key}>{required[key]}</li>)}
+                                                        </ul></div>
+                                                    </section>
+                                                )}
+                                            </>
+                                        )
+                                }
+                            </li>
                             <li>1日の単語数： {
                                 change ? (<input
                                     type="number"
@@ -109,57 +162,17 @@ const Admin = (props) => {
                             <li>センテンス: {calculateTargetValue(settings.target, rate)}</li>
                         </ul>
                     </dd>
-                    
-                    <dt>使用する教材</dt>
-                    <dd>
-                        {
-                            change ?
-                                (
-                                    <ul className={styles.material}>
-                                        {materials.map((item) => (
-                                            <li key={item.id}>
-                                                <input
-                                                    type="radio"
-                                                    value={item.id}
-                                                    id={item.id}
-                                                    onChange={() => updateSettings((prev)=>({...prev, material:item.id}))}
-                                                    checked={item.id === settings.material}
-                                                />
-                                                <label htmlFor={item.id}>
-                                                    <section className="section">
-                                                        <h3>{item.name}</h3>
-                                                        <p>{item.description}</p>
-                                                        <div>求められる文法知識
-                                                            <ul>
-                                                                {item.required
-                                                                    .filter(key => required.hasOwnProperty(key))
-                                                                    .map(key => <li key={key}>{required[key]}</li>)}
-                                                            </ul>
-                                                        </div>
-                                                    </section>
-                                                </label>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                ) : (
-                                    <>
-                                        {settings.material === null || !settings.material ? (
-                                            <>まだ教材を選んでいません。</>
-                                        ) : (
-                                            <section className="section">
-                                                    <h3>{currentMaterial.name}</h3>
-                                                    <p>{currentMaterial.description}</p>
-                                                <div>求められる文法知識<ul>
-                                                        {currentMaterial.required
-                                                    .filter(key => required.hasOwnProperty(key))
-                                                    .map(key => <li key={key}>{required[key]}</li>)}
-                                                </ul></div>
-                                            </section>
-                                        )}
-                                    </>
-                                )
-                        }
-                    </dd>
+                    <dt>瞬間英作文</dt>
+                    <dd>一日の目標: {change ? (
+                        <input
+                            type="number"
+                            min={0}
+                            max={300}
+                            step={10}
+                            value={settings.compositionTarget}
+                            onChange={handleCompositionTarget}
+                        />
+                    ):(settings.compositionTarget)}</dd>
                 </dl>
                 {!change ?
                     (

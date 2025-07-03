@@ -14,7 +14,6 @@ import Welcome from "./pages/Welcome";
 export const SettingsContext = createContext(null);
 
 const AppRoutes = () => {
-    // const { settings, updateSettings } = useContext(SettingsContext);
     const navigate = useNavigate();
     const location = useLocation();
     
