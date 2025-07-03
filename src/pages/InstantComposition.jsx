@@ -64,7 +64,6 @@ const InstantComposition = () => {
                 };
                 return acc;
             }, {});
-            console.log(groupedData)
             const data = { date: TODAY, ...groupedData }
             setLatestDailyScore(data);
         };
@@ -183,6 +182,7 @@ const InstantComposition = () => {
     };
     
     const levelHandler = (level) => {
+       
         if (Object.keys(latestDailyScore).length === 0) return;
         counts.current = { 'Beginner': 0, 'Moderate': 0, 'Hard': 0, 'Extreme': 0, status: false }
 
@@ -243,11 +243,12 @@ const InstantComposition = () => {
             {rawData.length > 0 ? (
                 <div className={styles.InstantComposition}>
                     {isShow && (<dl>
-                        <dd>{getAttr(`successfulAttempts`)} / {getAttr(`totalAttempts`)} Target: {data.length}</dd>
+                        <dd>{getAttr(`successfulAttempts`)} / {getAttr(`totalAttempts`)} Target: {getAttr(`target`)}</dd>
                     </dl>)}
                     
                     {isShow && (
-                        <>{data.length > getAttr(`successfulAttempts`) ? (<div className={styles.wrapper}>
+                        <>{getAttr(`target`) > getAttr(`successfulAttempts`) ? (<div className={styles.wrapper}>
+                            
                             <p className={styles.controll}>
                                 {countDown > 0 ? (
                                     <button onClick={toggleCountDown} style={{ backgroundColor: `var(--red)` }} disabled={countDown <= 1 && true}>
