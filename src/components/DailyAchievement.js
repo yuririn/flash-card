@@ -158,7 +158,8 @@ const DailyAchievement = ({slug})=> {
                                 <dl>
                                     {levels.map((level) => {
                                         const color = level === 'Beginner' ? 'green' :App.levels.find(i => level.toUpperCase() === i.name)?.color
-                                        const parcentage = item[level] ?(item[level]?.successfulAttempts / item[level]?.totalAttempts * 100).toFixed(1) : 0
+                                        const parcentage = item[level]?.successfulAttempts  ?(item[level]?.successfulAttempts / item[level]?.totalAttempts * 100).toFixed(1) : 0
+                                        console.log(item[level]?.successfulAttempts)
                                         return (
                                         <div key={level}>
                                                 <dt>{level}: {parcentage}%</dt>
