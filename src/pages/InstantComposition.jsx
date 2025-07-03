@@ -247,7 +247,7 @@ const InstantComposition = () => {
                     </dl>)}
                     
                     {isShow && (
-                        <>{getAttr(`target`) > getAttr(`successfulAttempts`) ? (<div className={styles.wrapper}>
+                        <>{getAttr(`target`) > getAttr(`totalAttempts`) ? (<div className={styles.wrapper}>
                             
                             <p className={styles.controll}>
                                 {countDown > 0 ? (
