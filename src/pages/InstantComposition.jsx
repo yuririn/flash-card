@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext,useRef } from 'react';
 import styles from '../components/css/InstantComposition.module.css';
 import { getData, getAllData, addData, deleteKey } from "../utilities/indexedDBUtils";
 import { TODAY } from "../utilities/commonUtils";
@@ -24,6 +24,7 @@ const InstantComposition = () => {
     const [allData, setAllData] = useState([])
     const [currentLevel, setCurrentLevel] = useState(levels[0].level)
     const [selectedVoice, setSelectedVoice] = useState(null)
+    const counts = useRef({ 'Beginner': 0, 'Moderate': 0, 'Hard': 0, 'Extreme': 0, status: false});
 
     //声の設定
     useEffect(() => {
@@ -105,7 +106,7 @@ const InstantComposition = () => {
         if (data.length === 0) return;
         if(isFailed) {
             updateDailyScore(latestDailyScore);
-            updateScore({ id: data[latestDailyScore[currentLevel]?.totalAttempts]?.id, isSuccess: false })
+            updateScore({ id: data[counts.current[currentLevel]]?.id, isSuccess: false })
             setIsFailed(false)
         } else {
             return;
@@ -113,6 +114,7 @@ const InstantComposition = () => {
     }, [countDown, isStarted, latestDailyScore, currentLevel, data, isFailed]);
 
     const updateDailyScore = async (data) => {
+        
         const levelData = levels.reduce((acc, level)=>{
             acc[level.level] = {
                 totalAttempts: data[level.level].totalAttempts,
@@ -146,21 +148,25 @@ const InstantComposition = () => {
         setIsFailed(false);
         if (countDown > 0) {
             //成功を追加
-
             tempData = {
                 ...latestDailyScore,
                 [currentLevel]: {
                 ...latestDailyScore[currentLevel],
                 successfulAttempts: latestDailyScore[currentLevel]?.successfulAttempts + 1,
-                id: data[latestDailyScore[currentLevel]?.totalAttempts]?.id
+                    id: data[counts.current[currentLevel]]?.id
                 }
             }
-
             setLatestDailyScore(tempData)
             updateDailyScore(tempData);
-            updateScore({ id: data[latestDailyScore[currentLevel]?.totalAttempts]?.id, isSuccess: true})
+            updateScore({ id: data[counts.current[currentLevel]]?.id, isSuccess: true})
             setCountDown(0);
         } else {
+            if (counts.current.status === false ){
+                counts.current.status = true
+            } else {
+                counts.current[currentLevel] = counts.current[currentLevel]+1
+            }
+            
             //成功以外を追加
             setLatestDailyScore(prev => ({
                 ...prev, [currentLevel]: {
@@ -174,9 +180,10 @@ const InstantComposition = () => {
         }
         
     };
-
+    
     const levelHandler = (level) => {
         if (Object.keys(latestDailyScore).length === 0) return;
+        counts.current = { 'Beginner': 0, 'Moderate': 0, 'Hard': 0, 'Extreme': 0, status: false }
 
         // ✅ `sec` に一致するレベルを取得
         const levelObj = levels.find(item => item.level === level) || levels[levels.length - 1];
@@ -190,22 +197,20 @@ const InstantComposition = () => {
         // ✅ `rawData` から `level` に一致するデータを抽出
         const filteredData = rawData.filter(item => item.level === levelObj.level);
 
-        let data = [];
+        let rotated = [];
         if (filteredData.findIndex(i => i.id === latestDailyScore[level]?.id) !== -1) {
             let index = filteredData.findIndex(i => i.id === latestDailyScore[level]?.id)
-            //まだ本日テストしていない場合
-            if (latestDailyScore[level]?.totalAttempts === 0) {
-                index = index + 1
-            } else {
-                // すでにやっている場合
-                index = index + latestDailyScore[level]?.totalAttempts
-            }
-            data = [...filteredData.slice(index, filteredData.length), ...filteredData.slice(0, index)]
+            
+            rotated = [
+                ...filteredData.slice(index + 1),
+                ...filteredData.slice(0, index),
+                filteredData.find(i => i.id === latestDailyScore[level]?.id)
+            ];
         } else {
-            data = filteredData;
+            rotated = filteredData;
         }
         //形成したデータを確認
-        setData(data.slice(0, latestDailyScore[level].target));
+        setData(rotated);
         setIsShow(true); // ✅ 必要なら再表示
     };
 
@@ -256,16 +261,16 @@ const InstantComposition = () => {
                                 )}
                             </p>
                             {isStarted && (<ul>
-                                <li>ID:{data[ getAttr(`totalAttempts`) ]?.id} </li>
-                                {achievement(data[getAttr(`totalAttempts`)]?.id)}
+                                <li>ID:{data[counts.current[currentLevel]]?.id} </li>
+                                {achievement(data[counts.current[currentLevel]]?.id)}
                             </ul>)}
 
                             {isStarted && (
                                 <>
                                     <p className={styles.countDown}>{countDown}</p>
-                                    <p>{data[getAttr(`totalAttempts`) ]?.question}</p>
+                                    <p>{data[counts.current[currentLevel]]?.question}</p>
                                     {countDown === 0 && (
-                                        <p className={styles.answer} onClick={() => play(data[getAttr(`totalAttempts`) ]?.answer)}>🔉 {data[getAttr(`totalAttempts`) ]?.answer}</p>
+                                        <p className={styles.answer} onClick={() => play(data[counts.current[currentLevel]]?.answer)}>🔉 {data[counts.current[currentLevel]]?.answer}</p>
                                     )}
                                 </>
                             )}
