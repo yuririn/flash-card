@@ -274,6 +274,7 @@ const InstantComposition = () => {
                                 <>
                                     <p className={styles.countDown}>{countDown}</p>
                                     <p>{data[counts.current[currentLevel]]?.question}</p>
+                                    
                                     {countDown === 0 && (
                                         <div className={styles.answer}>
 

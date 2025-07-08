@@ -106,12 +106,19 @@
     opacity: 0.6;
   }
   em {
-    font-size: 1.3em;
+    font-size: 18px;
     font-style: normal;
     color: var(--yellow);
+    text-shadow: 0 0 3px rgba(0,0,0, .3);
   }
   strong {
     color: var(--pink);
-    font-size: 1.5em;
+    font-size: 24px;
+  }
+  strong:has(em) {
+    font-size: 18px;
+    em {
+      font-size: 24px;
+    }
   }
 }
