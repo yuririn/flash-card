@@ -117,7 +117,9 @@
   }
   strong:has(em) {
     font-size: 18px;
+    color: var(--yellow);
     em {
+      color: var(--pink);
       font-size: 24px;
     }
   }
