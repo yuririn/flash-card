@@ -3,6 +3,9 @@ import styles from '../components/css/InstantComposition.module.css';
 import { getData, getAllData, addData, deleteKey } from "../utilities/indexedDBUtils";
 import { TODAY } from "../utilities/commonUtils";
 import { SettingsContext } from "../App";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import remarkSlug from "remark-slug";
 
 const InstantComposition = () => {
     const levels = [
@@ -54,7 +57,7 @@ const InstantComposition = () => {
                 const mergedData = {
                     totalAttempts: isToday ? latestScore[level]?.totalAttempts: 0,
                     successfulAttempts: isToday ? latestScore[level]?.successfulAttempts : 0,
-                    id: latestScore[level]?.id || null,
+                    id: latestScore ? latestScore[level]?.id : null,
                 }
                 const items = rawData.filter(item => item.level === level);
                 acc[level] = {
@@ -272,7 +275,11 @@ const InstantComposition = () => {
                                     <p className={styles.countDown}>{countDown}</p>
                                     <p>{data[counts.current[currentLevel]]?.question}</p>
                                     {countDown === 0 && (
-                                        <p className={styles.answer} onClick={() => play(data[counts.current[currentLevel]]?.answer)}>🔉 {data[counts.current[currentLevel]]?.answer}</p>
+                                        <div className={styles.answer}>
+
+                                            <p onClick={() => play(data[counts.current[currentLevel]]?.answer)}>🔉 {data[counts.current[currentLevel]]?.answer}</p>
+                                            <div className={styles.guide}> <ReactMarkdown remarkPlugins={[remarkGfm, remarkSlug]}>{data[counts.current[currentLevel]]?.tips}</ReactMarkdown></div>
+                                        </div>
                                     )}
                                 </>
                             )}

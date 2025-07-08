@@ -93,3 +93,25 @@
     gap: 16px;
   }
 }
+.guide {
+  background: rgba(0,0,0, .3);
+  padding: 8px;
+  margin-top: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  del {
+    text-decoration: none;
+    font-size: 0.8em;
+    opacity: 0.6;
+  }
+  em {
+    font-size: 1.3em;
+    font-style: normal;
+    color: var(--yellow);
+  }
+  strong {
+    color: var(--pink);
+    font-size: 1.5em;
+  }
+}

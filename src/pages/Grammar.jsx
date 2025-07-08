@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import grammarData from "../data/grammer.json";
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import styles from '../components/css/Grammar.module.css'
+import remarkGfm from "remark-gfm";
 import remarkSlug from "remark-slug";
 
 function Grammar() {
