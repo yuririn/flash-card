@@ -86,6 +86,7 @@ const LoginForm = () => {
         e.preventDefault(); // デフォルト動作の防止
         setIsLoading(true)
         console.log(userInfo)
+        
         try {
             const response = await fetch(
                 "https://script.google.com/macros/s/AKfycbzCkEBP-UfC8qNtwAJPm4ql7dwet1NF39TDqtN93u4nDBgIPuen7Ig_r-4FvPF6EPE4/exec",

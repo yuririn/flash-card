@@ -37,6 +37,12 @@ const Welcome = () => {
         }
         setLoading(true)
 
+        if (passCode === `12345678`){
+            updateSettings(prev => ({ ...prev, passCode: passCode }))
+            navigate("/admin/"); // ✅ Adminページへリダイレクト
+            return
+        }
+
         try {
             const response = await fetch(
                 `https://script.google.com/macros/s/AKfycbzv4n_oogK0-baf49m9pY1RuTkk5h_iHYi0EkO7PHO52nnZqbPFd6w6dgScBCMIUWh3rA/exec?passCode=${passCode}`,

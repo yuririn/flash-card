@@ -23,7 +23,7 @@ const InstantComposition = () => {
     const [selectedTime, setSelectedTime] = useState(0); // 設定した秒数
     const [isStarted, setIsStarted] = useState(false); // スタート状態管理
     const [isFailed, setIsFailed] = useState(false); // スタート状態管理
-    const [latestDailyScore, setLatestDailyScore] = useState(null);
+    const [latestDailyScore, setLatestDailyScore] = useState({});
     const [allData, setAllData] = useState([])
     const [currentLevel, setCurrentLevel] = useState(levels[0].level)
     const [selectedVoice, setSelectedVoice] = useState(null)
@@ -50,7 +50,11 @@ const InstantComposition = () => {
     useEffect(() => {
         const fetchLatestScoreDB = async () => {
             const latestScore = await getData("instantSentencesDailyScore");
-            setLatestDailyScoreDB(latestScore);
+            if (latestScore) {
+                setLatestDailyScoreDB(latestScore);
+            } else {
+                setLatestDailyScoreDB([]);
+            }
         }
         fetchLatestScoreDB();
     },[])
@@ -59,16 +63,16 @@ const InstantComposition = () => {
 
     //レベルの取得
     useEffect(() => {
-        if (rawData.length === 0 || !settings.compositionTarget || !latestDailyScoreDB) return;
+        if (rawData.length === 0 || !settings.compositionTarget) return;
         const fetchLatestScore = async () => {
             const rate = settings.compositionTarget / rawData.length;
             const groupedData = levels.reduce((acc, currentLevel) => {
                 const level = currentLevel.level;
-                const isToday = latestDailyScoreDB?.date === TODAY;
+                const isToday = latestDailyScoreDB && latestDailyScoreDB?.date === TODAY ? true : false;
                 const mergedData = {
                     totalAttempts: isToday ? latestDailyScoreDB[level]?.totalAttempts: 0,
                     successfulAttempts: isToday ? latestDailyScoreDB[level]?.successfulAttempts : 0,
-                    id: latestDailyScoreDB[level]?.id !== undefined? latestDailyScoreDB[level]?.id : 219,
+                    id: latestDailyScoreDB[level]?.id !== undefined? latestDailyScoreDB[level]?.id : null,
                 }
                 const items = rawData.filter(item => item.level === level);
                 acc[level] = {
@@ -120,7 +124,15 @@ const InstantComposition = () => {
     useEffect(() => {
         if (data.length === 0) return;
         if(isFailed) {
-            updateDailyScore(latestDailyScore);
+            const currentData = latestDailyScore[currentLevel] || {};
+            const reData = {
+                ...latestDailyScore, [currentLevel]: {
+                    ...currentData,
+                    id: data?.[counts.current[currentLevel]]?.id ?? null
+                }
+            }
+            console.log(reData)
+            updateDailyScore(reData);
             updateScore({ id: data[counts.current[currentLevel]]?.id, isSuccess: false })
             setIsFailed(false)
         } else {
@@ -199,7 +211,7 @@ const InstantComposition = () => {
     
     const levelHandler = (level) => {
        
-        if (Object.keys(latestDailyScore).length === 0) return;
+        if (!latestDailyScore || Object.keys(latestDailyScore).length === 0) return
         counts.current = { 'Beginner': 0, 'Moderate': 0, 'Hard': 0, 'Extreme': 0, status: false }
 
         // ✅ `sec` に一致するレベルを取得
