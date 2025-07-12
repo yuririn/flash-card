@@ -55,6 +55,8 @@ const InstantComposition = () => {
         fetchLatestScoreDB();
     },[])
 
+    console.log(`DB`,latestDailyScoreDB)
+
     //レベルの取得
     useEffect(() => {
         if (rawData.length === 0 || !settings.compositionTarget || !latestDailyScoreDB) return;
@@ -82,7 +84,7 @@ const InstantComposition = () => {
 
         fetchLatestScore();
     }, [rawData, settings, latestDailyScoreDB]);
-    console.log(latestDailyScore)
+    console.log(`DailyScore`, latestDailyScore)
 
     //Materialデータの取得
     useEffect(() => {
