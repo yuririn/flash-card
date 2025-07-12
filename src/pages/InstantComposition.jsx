@@ -28,6 +28,7 @@ const InstantComposition = () => {
     const [currentLevel, setCurrentLevel] = useState(levels[0].level)
     const [selectedVoice, setSelectedVoice] = useState(null)
     const counts = useRef({ 'Beginner': 0, 'Moderate': 0, 'Hard': 0, 'Extreme': 0, status: false});
+    const [latestDailyScoreDB, setLatestDailyScoreDB] = useState(null);
 
     //声の設定
     useEffect(() => {
@@ -47,17 +48,25 @@ const InstantComposition = () => {
 
     //レベルの取得
     useEffect(() => {
-        if (rawData.length === 0 || !settings.compositionTarget) return;
+        const fetchLatestScoreDB = async () => {
+            const latestScore = await getData("instantSentencesDailyScore");
+            setLatestDailyScoreDB(latestScore);
+        }
+        fetchLatestScoreDB();
+    },[])
+
+    //レベルの取得
+    useEffect(() => {
+        if (rawData.length === 0 || !settings.compositionTarget || !latestDailyScoreDB) return;
         const fetchLatestScore = async () => {
             const rate = settings.compositionTarget / rawData.length;
-            const latestScore = await getData("instantSentencesDailyScore");
             const groupedData = levels.reduce((acc, currentLevel) => {
                 const level = currentLevel.level;
-                const isToday = latestScore?.date === TODAY;
+                const isToday = latestDailyScoreDB?.date === TODAY;
                 const mergedData = {
-                    totalAttempts: isToday ? latestScore[level]?.totalAttempts: 0,
-                    successfulAttempts: isToday ? latestScore[level]?.successfulAttempts : 0,
-                    id: latestScore ? latestScore[level]?.id : null,
+                    totalAttempts: isToday ? latestDailyScoreDB[level]?.totalAttempts: 0,
+                    successfulAttempts: isToday ? latestDailyScoreDB[level]?.successfulAttempts : 0,
+                    id: latestDailyScoreDB ? latestDailyScoreDB[level]?.id : null,
                 }
                 const items = rawData.filter(item => item.level === level);
                 acc[level] = {
@@ -72,7 +81,7 @@ const InstantComposition = () => {
         };
 
         fetchLatestScore();
-    }, [rawData, settings]);
+    }, [rawData, settings, latestDailyScoreDB]);
 
     //Materialデータの取得
     useEffect(() => {
