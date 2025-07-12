@@ -10,8 +10,6 @@ const LoginRegister = () => {
 
     const userInfo = localStorage.getItem("userInfo");
 
-    console.log(userInfo)
-
     const toggleScreen = () => {
         setIsLogin(!isLogin);
     };

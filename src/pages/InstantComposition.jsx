@@ -82,6 +82,7 @@ const InstantComposition = () => {
 
         fetchLatestScore();
     }, [rawData, settings, latestDailyScoreDB]);
+    console.log(latestDailyScore)
 
     //Materialデータの取得
     useEffect(() => {
@@ -226,6 +227,8 @@ const InstantComposition = () => {
         setData(rotated.slice(0, latestDailyScore[currentLevel]?.target));
         setIsShow(true); // ✅ 必要なら再表示
     };
+
+    console.log(data)
 
     const play = (text)=> {
         try {
