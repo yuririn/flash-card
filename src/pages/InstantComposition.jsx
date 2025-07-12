@@ -68,7 +68,7 @@ const InstantComposition = () => {
                 const mergedData = {
                     totalAttempts: isToday ? latestDailyScoreDB[level]?.totalAttempts: 0,
                     successfulAttempts: isToday ? latestDailyScoreDB[level]?.successfulAttempts : 0,
-                    id: latestDailyScoreDB ? latestDailyScoreDB[level]?.id : null,
+                    id: latestDailyScoreDB !== undefined ? latestDailyScoreDB[level]?.id : 219,
                 }
                 const items = rawData.filter(item => item.level === level);
                 acc[level] = {
@@ -139,6 +139,7 @@ const InstantComposition = () => {
             return acc;
         }, {})
         const newScore = {date: TODAY, ...levelData}
+        console.log(newScore)
         await addData("instantSentencesDailyScore", newScore);
     }
 
