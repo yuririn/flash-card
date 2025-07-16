@@ -69,10 +69,11 @@ const InstantComposition = () => {
             const groupedData = levels.reduce((acc, currentLevel) => {
                 const level = currentLevel.level;
                 const isToday = latestDailyScoreDB && latestDailyScoreDB?.date === TODAY ? true : false;
+                const id = !latestDailyScoreDB.Beginner?.id ? 219 : latestDailyScoreDB.Beginner?.id
                 const mergedData = {
                     totalAttempts: isToday ? latestDailyScoreDB[level]?.totalAttempts: 0,
                     successfulAttempts: isToday ? latestDailyScoreDB[level]?.successfulAttempts : 0,
-                    id: latestDailyScoreDB[level]?.id !== undefined? latestDailyScoreDB[level]?.id : null,
+                    id: latestDailyScoreDB[level]?.id !== undefined ? latestDailyScoreDB[level]?.id : id,
                 }
                 const items = rawData.filter(item => item.level === level);
                 acc[level] = {
@@ -270,6 +271,10 @@ const InstantComposition = () => {
 
     return (
         <div className="wrapper">
+            {latestDailyScore?.Beginner?.id || `none`}/
+            {latestDailyScore?.Moderate?.id || `none`}/
+            {latestDailyScore?.Hard?.id || `none`}/
+            {latestDailyScore?.Extreme?.id || `none`}
             {rawData.length > 0 ? (
                 <div className={styles.InstantComposition}>
                     {isShow && (<dl>
