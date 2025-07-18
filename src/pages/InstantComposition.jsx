@@ -152,7 +152,7 @@ const InstantComposition = () => {
             return acc;
         }, {})
         const newScore = {date: TODAY, ...levelData}
-        console.log(newScore)
+        console.log(`newscore`,newScore)
         await addData("instantSentencesDailyScore", newScore);
     }
 
