@@ -69,7 +69,7 @@ const InstantComposition = () => {
             const groupedData = levels.reduce((acc, currentLevel) => {
                 const level = currentLevel.level;
                 const isToday = latestDailyScoreDB && latestDailyScoreDB?.date === TODAY ? true : false;
-                const id = !latestDailyScoreDB.Beginner?.id ? 219 : latestDailyScoreDB.Beginner?.id
+                const id = !latestDailyScoreDB.Beginner?.id ? 8 : latestDailyScoreDB.Beginner?.id
                 const mergedData = {
                     totalAttempts: isToday ? latestDailyScoreDB[level]?.totalAttempts: 0,
                     successfulAttempts: isToday ? latestDailyScoreDB[level]?.successfulAttempts : 0,
@@ -268,6 +268,8 @@ const InstantComposition = () => {
         const achievementRate = current.id && current?.totalAttempts > 0 ? `${(current?.successfulAttempts / current?.totalAttempts * 100).toFixed(0)} %` : 'Not Yet'; 
         return <li>🏆️: {achievementRate}</li>
     }
+
+    console.log(latestDailyScore)
 
     return (
         <div className="wrapper">
