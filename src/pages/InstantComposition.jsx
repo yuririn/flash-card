@@ -59,8 +59,6 @@ const InstantComposition = () => {
         fetchLatestScoreDB();
     },[])
 
-    console.log(`DB`,latestDailyScoreDB)
-
     //レベルの取得
     useEffect(() => {
         if (rawData.length === 0 || !settings.compositionTarget) return;
@@ -69,7 +67,7 @@ const InstantComposition = () => {
             const groupedData = levels.reduce((acc, currentLevel) => {
                 const level = currentLevel.level;
                 const isToday = latestDailyScoreDB && latestDailyScoreDB?.date === TODAY ? true : false;
-                const id = !latestDailyScoreDB.Beginner?.id ? 8 : latestDailyScoreDB.Beginner?.id
+                const id = !latestDailyScoreDB.Beginner?.id ? latestDailyScoreDB.Beginner?.id : 220
                 const mergedData = {
                     totalAttempts: isToday ? latestDailyScoreDB[level]?.totalAttempts: 0,
                     successfulAttempts: isToday ? latestDailyScoreDB[level]?.successfulAttempts : 0,
@@ -89,7 +87,6 @@ const InstantComposition = () => {
 
         fetchLatestScore();
     }, [rawData, settings, latestDailyScoreDB]);
-    console.log(`DailyScore`, latestDailyScore)
 
     //Materialデータの取得
     useEffect(() => {
@@ -142,7 +139,6 @@ const InstantComposition = () => {
     }, [countDown, isStarted, latestDailyScore, currentLevel, data, isFailed]);
 
     const updateDailyScore = async (data) => {
-        
         const levelData = levels.reduce((acc, level)=>{
             acc[level.level] = {
                 totalAttempts: data[level.level].totalAttempts,
@@ -284,7 +280,7 @@ const InstantComposition = () => {
                     </dl>)}
                     
                     {isShow && (
-                        <>{getAttr(`target`) > getAttr(`totalAttempts`) ? (<div className={styles.wrapper}>
+                        <>{getAttr(`target`) > getAttr(`totalAttempts`) -1 ? (<div className={styles.wrapper}>
                             
                             <p className={styles.controll}>
                                 {countDown > 0 ? (
