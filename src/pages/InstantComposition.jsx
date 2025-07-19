@@ -71,7 +71,7 @@ const InstantComposition = () => {
                 const mergedData = {
                     totalAttempts: isToday ? latestDailyScoreDB[level]?.totalAttempts: 0,
                     successfulAttempts: isToday ? latestDailyScoreDB[level]?.successfulAttempts : 0,
-                    id: level === `Beginner` && latestDailyScoreDB[level]?.id !== undefined ? latestDailyScoreDB[level]?.id : 220,
+                    id: level === `Beginner` && latestDailyScoreDB[level]?.id === undefined ? 220 : latestDailyScoreDB[level]?.id,
                 }
                 const items = rawData.filter(item => item.level === level);
                 acc[level] = {
