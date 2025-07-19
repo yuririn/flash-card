@@ -67,11 +67,11 @@ const InstantComposition = () => {
             const groupedData = levels.reduce((acc, currentLevel) => {
                 const level = currentLevel.level;
                 const isToday = latestDailyScoreDB && latestDailyScoreDB?.date === TODAY ? true : false;
-                const id = !latestDailyScoreDB.Beginner?.id ? latestDailyScoreDB.Beginner?.id : 220
+
                 const mergedData = {
                     totalAttempts: isToday ? latestDailyScoreDB[level]?.totalAttempts: 0,
                     successfulAttempts: isToday ? latestDailyScoreDB[level]?.successfulAttempts : 0,
-                    id: latestDailyScoreDB[level]?.id !== undefined ? latestDailyScoreDB[level]?.id : id,
+                    id: level === `Beginner` && latestDailyScoreDB[level]?.id !== undefined ? latestDailyScoreDB[level]?.id : 220,
                 }
                 const items = rawData.filter(item => item.level === level);
                 acc[level] = {
@@ -87,6 +87,9 @@ const InstantComposition = () => {
 
         fetchLatestScore();
     }, [rawData, settings, latestDailyScoreDB]);
+
+    console.log(`atestDailyScoreDB`, latestDailyScore)
+    console.log(`latestScore`,latestDailyScore)
 
     //Materialデータの取得
     useEffect(() => {
@@ -280,7 +283,7 @@ const InstantComposition = () => {
                     </dl>)}
                     
                     {isShow && (
-                        <>{getAttr(`target`) > getAttr(`totalAttempts`) -1 ? (<div className={styles.wrapper}>
+                        <>{getAttr(`target`) > getAttr(`totalAttempts`) ? (<div className={styles.wrapper}>
                             
                             <p className={styles.controll}>
                                 {countDown > 0 ? (
